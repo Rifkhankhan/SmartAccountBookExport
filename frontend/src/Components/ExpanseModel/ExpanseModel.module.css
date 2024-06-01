@@ -1,0 +1,38 @@
+.modelContainer {
+	background: rgba(83, 60, 97, 0.516);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(2.5px);
+	-webkit-backdrop-filter: blur(2.5px);
+	border-radius: 10px;
+}
+
+.model-content {
+	background: rgba(83, 60, 97, 0.516);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(2.5px);
+	-webkit-backdrop-filter: blur(2.5px);
+	border-radius: 10px;
+}
+
+.editBtn {
+	font-size: 1.5em;
+	transition: all 0.3s ease-in-out;
+	margin-right: 1vh;
+}
+
+.editBtn:hover {
+	cursor: pointer;
+	transform: scale(0.8);
+}
+
+.imageEditBtn {
+	font-size: 2vh;
+	top: 5.5vh;
+	left: 25vh;
+}
+
+@media screen and (max-width: 600px) {
+	.imageEditBtn {
+		font-size: 1.5em;
+	}
+}

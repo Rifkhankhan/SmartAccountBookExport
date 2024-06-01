@@ -1,0 +1,47 @@
+.form-control1{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 300px !important;
+    height: 250px;
+}
+.image-upload{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    height: 80%;
+}
+
+.image-upload .image-upload__preview{
+    width: 100%;
+    height: 95%;
+}
+
+.image-upload .image-upload__preview img{
+    width: 100%;
+    height: 98%;
+
+}
+
+.image-upload button{
+   background-color: blue;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   width: 40%;
+   padding: .5rem;
+   margin: auto !important;
+}
+
+@media (max-width:600px) {
+    .form-control1{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 300px !important;
+        width: 100% !important;
+        height: 250px;
+    }
+}

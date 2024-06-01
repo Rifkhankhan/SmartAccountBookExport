@@ -1,0 +1,27 @@
+.container {
+	background-color: #080b34;
+	margin: auto;
+	min-height: 86.5vh;
+	display: flex;
+	justify-content: center;
+	padding-top: 10vh;
+}
+
+.form {
+	backdrop-filter: blur(13px) saturate(78%);
+	-webkit-backdrop-filter: blur(13px) saturate(78%);
+	background-color: rgba(35, 182, 194, 0.18);
+	border-radius: 12px;
+	border: 1px solid rgba(209, 213, 219, 0.3);
+	width: 50vh;
+	min-height: 60vh;
+	margin: auto;
+
+	img {
+		width: 80%;
+		height: 40vh;
+		margin: auto;
+		margin-block: 2vh;
+		border-radius: 50%;
+	}
+}

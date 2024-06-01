@@ -1,0 +1,67 @@
+.container {
+	width: 95%;
+	margin: auto;
+	background: rgba(250, 242, 242, 0.15);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(2.5px);
+	-webkit-backdrop-filter: blur(2.5px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	padding: 2vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+
+
+@media screen and (max-width: 765px) {
+	.container {
+		margin-block: 2vh;
+	}
+}
+.header {
+	margin: auto;
+	text-align: center;
+	margin-bottom: 1vh;
+}
+.container h2 {
+	text-align: center;
+	color: white;
+	margin-inline: auto;
+	margin-top: 0;
+}
+
+.errorMessageContainer {
+	padding-inline: 1rem;
+	background-color: red;
+	color: white;
+	width: 80%;
+	border-radius: 5px;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.errorMessage {
+	color: white;
+	font-size: 2.5vh;
+	font-weight: 500;
+}
+
+.successContainer {
+	padding-inline: 1rem;
+	background-color: green;
+	color: white;
+	width: 80%;
+	border-radius: 5px;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.successMessage {
+	color: white;
+	font-size: 2.5vh;
+	font-weight: 500;
+}

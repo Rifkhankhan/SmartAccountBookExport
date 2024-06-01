@@ -1,0 +1,232 @@
+* {
+	padding: 0%;
+	margin: 0%;
+	box-sizing: border-box;
+}
+
+.nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	min-height: 60px;
+	width: 100%;
+
+	box-sizing: border-box;
+	/* background-color: transparent; */
+	transition: background-color 0.3s ease;
+	z-index: 100;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: auto !important;
+	color: white !important;
+}
+.hightlight {
+	color: red;
+}
+.scrolled {
+	background: rgb(169, 200, 87);
+	background: linear-gradient(
+		90deg,
+		rgba(169, 200, 87, 0.6834383411567753) 6%,
+		rgba(87, 127, 200, 1) 80%,
+		rgba(49, 96, 189, 1) 95%
+	);
+	.hightlight {
+		color: black;
+	}
+}
+
+.nav ul {
+	width: 100%;
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	margin: auto !important;
+
+	align-items: center;
+	padding-inline: 20px !important;
+}
+
+.nav li {
+	height: 50px;
+	color: white;
+	cursor: pointer;
+}
+.nav li a {
+	transition: all 0.1s ease-in-out;
+}
+
+.nav ul:first-child li:not(:first-child, :nth-child(2), :nth-child(3), :nth-child(10)):hover {
+	a {
+		border-bottom: 2px solid white;
+
+		font-weight: bold;
+	}
+}
+.nav ul:last-child li:not(:first-child):hover {
+	a {
+		font-weight: bold;
+		background-color: darkblue;
+		border-radius: 5px;
+		color: white;
+	}
+}
+.nav ul:last-child li:first-child:hover {
+	a {
+		transition: all 0.3s ease-in-out;
+	}
+}
+.nav ul:last-child li:first-child:hover {
+	a {
+		svg {
+			transform: rotate(180deg);
+		}
+	}
+}
+.nav li:nth-child(10) a:hover {
+	font-weight: bold;
+	transform: scale(1.2);
+}
+.nav a {
+	height: 100%;
+	padding: 0 15px;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	color: white;
+}
+
+.nav li:first-child {
+	margin-right: auto;
+	text-wrap: nowrap;
+}
+.nav li:nth-child(2) {
+	margin-right: auto;
+}
+.nav li:nth-child(3) {
+	margin-right: auto;
+}
+
+.showOnMobile {
+	display: none !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.showOnMobile:hover {
+	cursor: pointer;
+}
+
+@media screen and (max-width: 1100px) {
+	.hideOnMobile {
+		display: none;
+	}
+	.showOnMobile {
+		display: flex !important;
+	}
+
+	.nav li:nth-child(2) {
+		margin: auto;
+	}
+	.nav li:nth-child(3) {
+		margin: auto;
+	}
+}
+
+.contact {
+	font-size: 1em;
+	animation: blink 2s ease-in-out infinite;
+	margin-left: auto;
+}
+
+@keyframes blink {
+	0% {
+		color: red;
+	}
+
+	25% {
+		color: white;
+	}
+
+	50% {
+		color: yellow;
+	}
+
+	75% {
+		color: blue;
+	}
+
+	100% {
+		color: #32a2ec;
+	}
+}
+
+.sidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100vh;
+	width: 250px !important;
+	z-index: 999;
+	background-color: rgba(255, 255, 255, 0.444);
+	backdrop-filter: blur(10px);
+	box-shadow: -10px 0 10px (0, 0, 0, 1);
+	display: none;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start !important;
+	opacity: 1; /* Initially hide the sidebar */
+	visibility: hidden; /* Hide the sidebar without affecting layout */
+	transition: right 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s; /* Add transitions for smooth animation */
+}
+
+@media screen and (max-width: 1100px) {
+	.sidebar.open {
+		right: 0; /* Move the sidebar into the viewport when it's open */
+		visibility: visible; /* Ensure the sidebar is visible */
+		transition: right 0.3s ease, opacity 0.3s ease; /* Add transitions for smooth animation */
+	}
+	.sidebar li {
+		width: 100%;
+		margin: 0px !important;
+		transition: all 0.3s ease-in-out;
+	}
+
+	.sidebar li:not(:first-child):hover {
+		cursor: pointer;
+		background-color: rgb(255, 255, 255) !important;
+		border-radius: 5px;
+	}
+
+	.sidebar li:first-child {
+		margin-left: auto;
+	}
+
+	.sidebar li:first-child a {
+		display: flex;
+		justify-content: end;
+	}
+
+	.sidebar li a {
+		color: black;
+		font-size: 1.2em;
+	}
+	@media screen and (max-width: 400px) {
+		.sidebar {
+			width: 100% !important;
+		}
+		.sidebar li a {
+			display: flex;
+			justify-content: center;
+		}
+	}
+}
+@media screen and (max-width: 580px) {
+	.contact {
+		font-size: 0.7em;
+		padding-block: 2px;
+		text-wrap: balance;
+	}
+}

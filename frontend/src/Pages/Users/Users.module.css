@@ -1,0 +1,38 @@
+.home {
+	min-height: 100vh;
+	padding-top: 12vh;
+}
+
+.homeComponent {
+	background: rgba(83, 60, 97, 0.516);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(2.5px);
+	-webkit-backdrop-filter: blur(2.5px);
+	border-radius: 10px;
+	min-height: 30vh;
+
+	margin-inline: auto !important;
+	color: white;
+}
+
+.profileEditBtn {
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	font-size: 1.3em;
+	z-index: 1;
+	color: white;
+	transition: all 0.3s ease-in-out;
+}
+
+.profileEditBtn:hover {
+	transform: scale(1.2);
+	cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+	.profileEditBtn {
+		top: 2%;
+		right: 5%;
+	}
+}

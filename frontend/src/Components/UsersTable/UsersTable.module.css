@@ -1,0 +1,28 @@
+.tableContainer {
+	background: rgba(250, 242, 242, 0.15);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(2.5px);
+	-webkit-backdrop-filter: blur(2.5px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	padding: 2vh;
+	width: 95%;
+	margin-inline: auto;
+
+	table {
+		width: 100%;
+	}
+}
+.inputTag {
+	width: 50vh;
+}
+
+@media screen and (max-width: 850px) {
+	.tableContainer {
+		overflow-x: scroll;
+	}
+
+	.inputTag {
+		width: 100%;
+	}
+}

@@ -1,0 +1,122 @@
+.home {
+	min-height: 100vh;
+	padding-top: 12vh;
+}
+.oppComponent {
+	min-height: 30vh;
+	color: white;
+}
+
+.smallCard {
+	border-radius: 5px;
+	font-size: 1em;
+	text-align: left;
+	backdrop-filter: blur(2px) saturate(200%);
+	-webkit-backdrop-filter: blur(2px) saturate(200%);
+	background-color: rgba(8, 34, 97, 0.41);
+	border-radius: 12px;
+	border: 1px solid rgba(209, 213, 219, 0.3);
+	margin-block: .5vh;
+	padding-block: 1vh;
+	min-width: 20%;
+	position: relative !important;
+	display: flex;
+	flex-direction: row;
+}
+.homeComponent {
+	margin-inline: auto !important;
+	color: white;
+	margin-block: 2vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	.card {
+		backdrop-filter: blur(0px) saturate(200%);
+		-webkit-backdrop-filter: blur(0px) saturate(200%);
+		background-color: rgba(255, 255, 255, 0.22);
+		border-radius: 12px;
+		border: 1px solid rgba(209, 213, 219, 0.3);
+		min-height: 20vh;
+		margin-inline: .5vh;
+		margin-top: 2vh;
+	}
+	.card:first-child {
+		background-color: rgba(0, 255, 255, 0.342);
+	}
+	.card:nth-child(2) {
+		background-color: grey;
+	}
+
+	.card:nth-child(3) {
+		background-color: rgb(222, 40, 40);
+	}
+
+	.card:nth-child(4) {
+		background-color: rgb(216, 181, 21);
+	}
+}
+
+.component {
+	backdrop-filter: blur(2px) saturate(200%);
+	-webkit-backdrop-filter: blur(2px) saturate(200%);
+	background-color: rgba(8, 34, 97, 0.41);
+	border-radius: 12px;
+	border: 1px solid rgba(209, 213, 219, 0.3);
+	min-height: 20vh;
+
+	margin-inline: auto;
+	margin-block: 2vh;
+	color: white;
+	padding: 1vh;
+}
+
+.component h4 {
+	color: white;
+}
+.smallCard {
+	position: relative;
+}
+.profileEditBtn {
+	position: absolute !important;
+	width: 20px;
+	top: 20%;
+	right: 0%;
+	font-size: 1.3em;
+	color: white;
+	transition: all 0.3s ease-in-out;
+}
+
+.profileEditBtn:hover {
+	transform: scale(1.2);
+	cursor: pointer;
+}
+
+.pieChartContainer {
+	/* width: 60%; */
+	/* min-height: 50vh; */
+	max-width: 60%;
+}
+
+.tableContainer {
+	margin: auto;
+}
+
+@media screen and (max-width: 1000px) {
+	.tableContainer {
+		overflow-x: auto;
+		margin: auto;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.profileEditBtn {
+		top: 5%;
+		right: 0%;
+	}
+	.pieChartContainer {
+		/* width: 60%; */
+		/* min-height: 50vh; */
+		width: 100%;
+		max-width: 100%;
+	}
+}
