@@ -152,8 +152,8 @@ const Advance = () => {
 									fontSize: '1.5em',
 									fontWeight: 600
 								}}>
-								{userCompanies.length === 1 ? (
-									companies.find(comp => comp.cid === userCompanies[0].cid).name
+								{userCompanies?.length === 1 ? (
+									companies?.find(comp => comp.cid === userCompanies[0].cid)?.name
 								) : (
 									<select
 										className="form-select  form-control me-auto"
@@ -164,11 +164,11 @@ const Advance = () => {
 											border: 'none',
 											backgroundColor: 'transparent'
 										}}>
-										{userCompanies.map(userCompany => (
+										{userCompanies?.map(userCompany => (
 											<option value={userCompany.cid} key={userCompany.cid}>
 												{
-													companies.find(comp => comp.cid === userCompany.cid)
-														.name
+													companies?.find(comp => comp.cid === userCompany.cid)
+														?.name
 												}
 											</option>
 										))}

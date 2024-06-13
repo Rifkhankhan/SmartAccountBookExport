@@ -2,8 +2,7 @@ import swal from 'sweetalert'
 import * as RequestApis from '../Apis/RequestApis'
 import { RequestActions } from '../store/DataActivitySlice'
 import { AccountRequestActions } from '../store/AccountRequestSlice'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+
 export const getRequests = () => async dispatch => {
 	dispatch(RequestActions.handleLoading())
 	try {
@@ -14,25 +13,15 @@ export const getRequests = () => async dispatch => {
 		}
 	} catch (error) {
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Oops! Something Wrong', error.response.data.message, 'error')
 		} else if (error.response?.status === 404) {
-			toast.error(`You don't have an Account: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal("You don't have Account", error.response.data.message, 'error')
 		} else if (error.response?.status === 409) {
-			toast.error(`Oops! You have no access: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Oops! Something Wrong', error.response.data.message, 'error')
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Oops! You have no access', error.response.data.message, 'error')
 		} else if (error.response?.status === 500) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Internal Server Error', error.response.data.message, 'error')
 		}
 	}
 	dispatch(RequestActions.handleLoading())
@@ -50,25 +39,15 @@ export const resetData = formData => async dispatch => {
 		}
 	} catch (error) {
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Oops! Something Wrong', error.response.data.message, 'error')
 		} else if (error.response?.status === 404) {
-			toast.error(`You don't have an Account: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal("You don't have Account", error.response.data.message, 'error')
 		} else if (error.response?.status === 409) {
-			toast.error(`Oops! You have no access: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Oops! Something Wrong', error.response.data.message, 'error')
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Oops! You have no access', error.response.data.message, 'error')
 		} else if (error.response?.status === 500) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+			swal('Internal Server Error', error.response.data.message, 'error')
 		}
 	}
 	dispatch(RequestActions.handleLoading())

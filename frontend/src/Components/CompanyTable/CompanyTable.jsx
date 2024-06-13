@@ -14,7 +14,7 @@ const CompanyTable = ({ initialData }) => {
 		setFilter(event.target.value)
 	}
 
-	const filteredData = initialData.filter(item => {
+	const filteredData = initialData?.filter(item => {
 		const filterLower = filter.toLowerCase()
 		return (
 			String(item.cid).toLowerCase().includes(filterLower) ||

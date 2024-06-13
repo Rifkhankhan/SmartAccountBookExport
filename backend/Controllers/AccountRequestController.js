@@ -3,74 +3,10 @@ const AccountRequestModel = require('../Models/AccountRequestModel')
 const { v4: uuid } = require('uuid')
 
 const pool = require('../MysqlConnection')
-const multer = require('multer')
-const { now } = require('lodash')
 
-exports.importRequests = async (req, res, next) => {
-	const { updatedData: products, id } = req.body // Assuming req.body is an array of objects
+const asyncHandler = require('../Middleware/asyncHandler')
 
-	try {
-		for (const product of products) {
-			const newProduct = {
-				date: product.date,
-				amount: product.amount,
-				id: id,
-				cid: product.company,
-				methode: product.method,
-				narration: product.narration,
-				requestType: product.category,
-				requestForm: product['payment type'] || product['paymenttype']
-			}
-
-			const columns = Object.keys(newProduct).join(',')
-			const placeholders = Object.values(newProduct)
-				.map(() => '?')
-				.join(',')
-
-			const query = `INSERT INTO accountrequest (${columns}, createAt) VALUES (${placeholders}, NOW())`
-
-			const [result] = await pool.query(query, Object.values(newProduct))
-
-			const [request] = await pool.query(
-				'SELECT * FROM accountrequest WHERE arid = ?',
-				[result.insertId]
-			)
-			console.log(request)
-
-			// res.json({ success: true, requests: request })
-
-			const requestProduct = {
-				...request[0],
-				id: id,
-				arid: result.insertId
-			}
-			console.log(requestProduct)
-
-			const requestColumns = Object.keys(requestProduct).join(',')
-			const requestPlaceholders = Object.values(requestProduct)
-				.map(() => '?')
-				.join(',')
-
-			const requestQuery = `INSERT INTO requests (${requestColumns}) VALUES (${requestPlaceholders})`
-
-			const [requestResult] = await pool.query(
-				requestQuery,
-				Object.values(requestProduct)
-			)
-		}
-	} catch (error) {
-		console.log(error)
-		res.json({ success: false })
-
-		return next(error)
-	} finally {
-		const [requests] = await pool.query('select * from accountrequest')
-
-		res.json({ success: true, requests: requests })
-	}
-}
-
-exports.CreateRequest = async (req, res, next) => {
+exports.CreateRequest = asyncHandler(async (req, res, next) => {
 	// Access file information
 	const file = req.file
 
@@ -82,12 +18,11 @@ exports.CreateRequest = async (req, res, next) => {
 		const newProduct = {
 			date: req.body.date,
 			amount: req.body.amount,
-
 			narration: req.body.narration,
 			requestType: req.body.requestType,
 			requestForm: req.body.requestForm,
-			id: req.body?.id,
-			cid: req.body?.company,
+			id: req.user.id,
+
 			methode: req.body.methode,
 			filename: req.file?.filename, // Add the filename obtained from req.file
 			filepath: req.file?.path // Add the filepath obtained from req.file
@@ -109,11 +44,9 @@ exports.CreateRequest = async (req, res, next) => {
 
 		//.....................................................finished account request table insertion
 
-		const { id, ...rest } = req.body
-
 		const requestProduct = {
 			...request[0],
-			id: id,
+			id: req.user.id,
 			arid: result.insertId
 		}
 
@@ -141,20 +74,19 @@ exports.CreateRequest = async (req, res, next) => {
 
 		return next(err)
 	}
-}
-
+})
 // get all products
-exports.getRequests = async (req, res, next) => {
+exports.getRequests = asyncHandler(async (req, res, next) => {
 	try {
-		;[products] = await pool.query('select * from accountrequest ')
+		const [products] = await pool.query('select * from accountrequest ')
 		res.json({ success: true, product: products })
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
 // //get all products of a shop
-exports.ToggleRequest = async (req, res, next) => {
+exports.ToggleRequest = asyncHandler(async (req, res, next) => {
 	const { balance, ...rest } = req.body
 	try {
 		const [product, fields] = await pool.query(
@@ -168,7 +100,7 @@ exports.ToggleRequest = async (req, res, next) => {
 			...product[0],
 			...rest,
 			status: product[0].status ? 1 : 0,
-			id: req.body.id,
+			id: req.user.id,
 			createAt: rest.createAt
 		}
 
@@ -230,10 +162,10 @@ exports.ToggleRequest = async (req, res, next) => {
 		console.log(err)
 		return next(err)
 	}
-}
+})
 
 // //get all products of a shop
-exports.updateRequest = async (req, res, next) => {
+exports.updateRequest = asyncHandler(async (req, res, next) => {
 	try {
 		const { arid, file, ...rest } = req.body
 		console.log(rest)
@@ -248,6 +180,7 @@ exports.updateRequest = async (req, res, next) => {
 
 		const updateUser = {
 			...rest,
+
 			filename: req.file?.filename || req.body?.filename, // Use the filename obtained from req.file if available, otherwise fallback to req.body.filename
 			filepath: req.file?.path || req.body?.path, // Use the filepath obtained from req.file if available, otherwise fallback to req.body.path
 			createAt: rest.createAt, // Use the existing format for createAt
@@ -304,9 +237,9 @@ exports.updateRequest = async (req, res, next) => {
 
 		return next(err)
 	}
-}
+})
 // get product
-exports.getRequest = async (req, res, next) => {
+exports.getRequest = asyncHandler(async (req, res, next) => {
 	const { id } = req.params.id
 
 	try {
@@ -315,63 +248,53 @@ exports.getRequest = async (req, res, next) => {
 	} catch (err) {
 		return next(err)
 	}
-}
+})
+// const queryPreviousDayRecord = () => {
+// 	try {
+// 		AccountRequestModel.findOne({
+// 			date: { $lt: req.body.date.split(' ')[0] }
+// 		})
+// 			.sort({ date: -1 })
+// 			.exec((err, lastDayRecord) => {
+// 				if (err) {
+// 					console.error(err)
+// 					return
+// 				}
 
-//  compani apis
+// 				if (lastDayRecord) {
+// 					const previousDate = new Date(lastDayRecord.date)
+// 						.toISOString()
+// 						.slice(0, 10) // Extracting YYYY-MM-DD part
+// 					const givenDate = new Date(req.body.date)
+// 						.toISOString()
+// 						.slice(0, 10)
 
-exports.CreateCompany = async (req, res, next) => {
-	console.log(req.body)
-	try {
-		const newProduct = {
-			name: req.body.name,
-			location: req.body.location
-		}
+// 					if (previousDate !== givenDate) {
+// 						console.log('logic: ', date1UTC !== date2UTC)
+// 						newProduct.oppBalance = lastDayRecord.balance
+// 						newProduct.balance =
+// 							+lastDayRecord.balance +
+// 							+req.body.amount +
+// 							+lastRecord.balance
+// 					} else {
+// 						newProduct.oppBalance = lastDayRecord.oppBalance
+// 						newProduct.balance =
+// 							+lastDayRecord.balance + +req.body.amount
+// 					}
+// 				}
 
-		const columns = Object.keys(newProduct).join(',')
-		const placeholders = Object.values(newProduct)
-			.map(() => '?')
-			.join(',')
-
-		const query = `INSERT INTO company (${columns}, createdAt) VALUES (${placeholders}, NOW())`
-
-		const [result] = await pool.query(query, Object.values(newProduct))
-
-		console.log(result)
-
-		const [requests] = await pool.query('SELECT * FROM company')
-
-		console.log(requests)
-
-		if (result.affectedRows > 0) {
-			res.json({ success: true, requests: requests })
-		}
-	} catch (err) {
-		console.error(err)
-		res.json({ success: false })
-	}
-}
-
-// get all products
-exports.getcompanies = async (req, res, next) => {
-	try {
-		const [products] = await pool.query('select * from company ')
-		res.json({ success: true, product: products })
-	} catch (err) {
-		return next(err)
-	}
-}
-
-// get user componies
-
-exports.getUserComponies = async (req, res, next) => {
-	console.log(req.params)
-	try {
-		const [products] = await pool.query(
-			'select * from usercompany where uid = ? ',
-			[req.params.id]
-		)
-		res.json({ success: true, product: products })
-	} catch (err) {
-		return next(err)
-	}
-}
+// 				// Save the new product after querying for the previous day's record
+// 				newProduct.save((err, savedProduct) => {
+// 					if (err) {
+// 						console.error(err)
+// 						return
+// 					}
+// 					// Handle successful save
+// 					res.json({ success: true, product: newProduct })
+// 				})
+// 			})
+// 	} catch (err) {
+// 		console.error(err)
+// 		return
+// 	}
+// }

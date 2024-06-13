@@ -1,14 +1,18 @@
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const asyncHandler = require('../Middleware/asyncHandler')
+const generateToken = require('./../Utils/generateToken')
+
 // Return "https" URLs by setting secure: true
 
 const UserModel = require('../Models/User')
 const pool = require('../MysqlConnection')
 
 // user sign in controller
-exports.usersignin = async (req, res) => {
+exports.usersignin = asyncHandler(async (req, res) => {
 	const { name, password } = req.body
+	console.log(req.body)
 
 	// Check if email and password is provided
 	if (!name || !password) {
@@ -23,11 +27,13 @@ exports.usersignin = async (req, res) => {
 		const [user] = await pool.query('select * from users where name = ?', [
 			req.body.name
 		])
+		console.log(user)
 
 		// if user doesn't exist
 		if (!user.length) {
 			return res.status(404).json({ message: 'User not found' })
 		}
+		console.log(!user.length)
 
 		if (user[0].isLoggedIn) {
 			return res.status(409).json({ message: 'User Already Logged in' })
@@ -74,14 +80,12 @@ exports.usersignin = async (req, res) => {
 		//...................................................finished
 		//.................................
 
-		// creating a token
-		const secretKey = '9892c70a8da9ad71f1829ad03c115408'
-		const token = jwt.sign(
-			{ name: user[0].name, id: user[0].id, secretKey: secretKey },
-			secretKey
-		)
+		generateToken(res, user[0].id)
 
 		// sending the user object and token as the response
+		const token = jwt.sign({ id: user[0].id }, process.env.SECRET_KEY, {
+			expiresIn: '30d'
+		})
 		res.status(200).json({ success: true, token, user: user[0] })
 	} catch (error) {
 		console.log(error)
@@ -89,40 +93,15 @@ exports.usersignin = async (req, res) => {
 			.status(500)
 			.json({ message: 'Something went wrong', error: error.message })
 	}
-}
+})
 // logout
-exports.logout = async (req, res) => {
-	const cleanToken = req.params.token.replace(/^"(.*)"$/, '$1')
-	// const ip = req.ip || req.connection.remoteAddress
-	// Check if the request is coming through a proxy
-	// const forwardedIpsStr = req.headers['x-forwarded-for']
-
-	const secretKey = '9892c70a8da9ad71f1829ad03c115408'
-	// verify and decode the token
-	let userId
-	let tokenExpired
-
-	jwt.verify(cleanToken, secretKey, (err, decode) => {
-		if (err) {
-			if (err.message) {
-				tokenExpired = true
-			}
-		} else {
-			userId = decode.id
-		}
-	})
-
+exports.logout = asyncHandler(async (req, res) => {
 	try {
-		// finding user by email
-		const [user] = await pool.query('select * from users where id = ?', [
-			userId
-		])
-
 		// if user doesn't exist
-		if (!user.length)
+		if (!req.user)
 			return res.status(404).json({ message: "User doesn't exist" })
 
-		if (!user[0].status) {
+		if (!req.user.status) {
 			return res.status(408).json({ message: 'User access denied!' })
 		}
 
@@ -138,8 +117,8 @@ exports.logout = async (req, res) => {
 			.join(', ')
 		const updateValues = Object.values(updateUser)
 
-		const query = `UPDATE users SET ${updateFields} WHERE id = ${userId}`
-		const [result] = await pool.query(query, Object.values(updateUser))
+		const query = `UPDATE users SET ${updateFields} WHERE id = ${req.user.id}`
+		const [result] = await pool.query(query, Object.values(updateValues))
 		//.............................
 
 		// update useractivities table...........
@@ -147,7 +126,7 @@ exports.logout = async (req, res) => {
 		// Fetch the last record from useractivities
 		const [lastRecord] = await pool.query(
 			'SELECT * FROM useractivities WHERE id = ? ORDER BY logintime DESC LIMIT 1',
-			[userId]
+			[req.user.id]
 		)
 
 		// Extract logintime from the last record
@@ -159,7 +138,7 @@ exports.logout = async (req, res) => {
 		// Prepare useractivities object for insertion
 		const useractivities = {
 			logintime: logintime,
-			id: userId
+			id: req.user.id
 		}
 
 		// Prepare SQL query
@@ -170,7 +149,12 @@ exports.logout = async (req, res) => {
 			useractivities.logintime,
 			useractivities.id
 		])
-		res.json({ success: true })
+		res.cookie('jwt', '', {
+			httpOnly: true,
+			expires: new Date(0)
+		})
+		console.log(resultt)
+		res.status(200).json({ success: true })
 
 		//...................................................finished
 		//.................................
@@ -181,84 +165,40 @@ exports.logout = async (req, res) => {
 			.status(500)
 			.json({ message: 'Something went wrong', error: error.message })
 	}
-}
+})
 
-exports.getUserActivities = async (req, res) => {
+exports.getUserActivities = asyncHandler(async (req, res) => {
 	try {
 		const [requests] = await pool.query(`
-            SELECT 
+            SELECT
                 useractivities.*,
                 users.*
-            FROM 
+            FROM
 				useractivities
             JOIN
                 users ON useractivities.id = users.id
-          
+
         `)
 
 		res.json({ success: true, product: requests })
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
-exports.autoLogin = async (req, res) => {
-	const cleanToken = req.params.token.replace(/^"(.*)"$/, '$1')
-	// const ip = req.ip || req.connection.remoteAddress
-	// Check if the request is coming through a proxy
-	// const forwardedIpsStr = req.headers['x-forwarded-for']
-
-	const secretKey = '9892c70a8da9ad71f1829ad03c115408'
-	// verify and decode the token
-	let userId
-	let tokenExpired
-
-	jwt.verify(cleanToken, secretKey, (err, decode) => {
-		if (err) {
-			if (err.message) {
-				tokenExpired = true
-			}
-		} else {
-			userId = decode.id
-		}
-	})
-
+exports.autoLogin = asyncHandler(async (req, res) => {
 	try {
-		// finding user by email
-		const [user] = await pool.query('select * from users where id = ?', [
-			userId
-		])
-		// if user doesn't exist
-		if (!user.length)
-			return res.status(404).json({ message: "User doesn't exist" })
+		const { password, ...rest } = req.user
 
-		if (!user[0].status) {
-			return res.status(408).json({ message: 'User access denied!' })
-		}
-
-		if (!user[0].isLoggedIn) {
-			return res.status(405).json({ message: 'Logged Out!' })
-		}
-		// creating a token
-		const token = jwt.sign(
-			{ name: user[0].name, id: user[0].id },
-			'9892c70a8da9ad71f1829ad03c115408'
-		)
-
-		// sending the user object and token as the response
-		if (tokenExpired) {
-			res.status(200).json({ success: false })
-		} else {
-			res.status(200).json({ success: true, token, user: user[0] })
-		}
+		res.status(200).json({ success: true, user: rest })
 	} catch (error) {
 		res
 			.status(500)
 			.json({ message: 'Something went wrong', error: error.message })
 	}
-}
+})
 // Function to create a new user
-exports.createUser = async (req, res, next) => {
+exports.createUser = asyncHandler(async (req, res, next) => {
 	try {
 		const { name, email } = req.body
 		const [result] = await pool.query(
@@ -269,10 +209,10 @@ exports.createUser = async (req, res, next) => {
 	} catch (error) {
 		next(error)
 	}
-}
+})
 
 // user sign up controller
-exports.createCustomer = async (req, res, next) => {
+exports.createCustomer = asyncHandler(async (req, res, next) => {
 	try {
 		const [user, fields] = await pool.query(
 			'SELECT * FROM users WHERE name = ?',
@@ -335,10 +275,7 @@ exports.createCustomer = async (req, res, next) => {
 			loanDeletePermission:
 				req.body.loanDeletePermission === undefined
 					? 'no'
-					: req.body.loanDeletePermission,
-			cp: req.body.cp === undefined ? 'no' : req.body.cp,
-			pp: req.body.pp === undefined ? 'no' : req.body.pp,
-			epp: req.body.epp === undefined ? 'no' : req.body.epp
+					: req.body.loanDeletePermission
 		}
 
 		const columns = Object.keys(newUser).join(',')
@@ -349,65 +286,31 @@ exports.createCustomer = async (req, res, next) => {
 		const query = `INSERT INTO users (${columns}) VALUES (${placeholders})`
 
 		const [result] = await pool.query(query, Object.values(newUser))
-
-		//  need to add the companies into usercompany table one by one
-
-		const userId = result.insertId
-		const companies = req.body.company
-
-		// Construct the SQL query dynamically
-		let sql = 'INSERT INTO usercompany (uid, cid, createdAt) VALUES '
-		const values = []
-
-		// Add each selected company to the query
-		companies.forEach(companyId => {
-			sql += '(?, ?, NOW()), '
-			values.push(userId, companyId)
-		})
-
-		// Remove the trailing comma and space
-		sql = sql.slice(0, -2)
-
-		// Execute the query
-
-		const [results] = await pool.query(sql, values)
-
-		if (results.affectedRows > 0) {
-			// Handle successful insertion
-			res.json({
-				success: true,
-				message: 'User companies inserted successfully'
-			})
-		} else {
-			// Handle error
-			console.error('Error inserting user companies:', error)
-			res.json({ success: false, error: 'Error inserting user companies' })
-		}
+		res.json({ success: true })
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
 // user sign up controller
-exports.getCustomers = async (req, res) => {
+exports.getCustomers = asyncHandler(async (req, res) => {
 	try {
-		;[users] = await pool.query('select * from users ')
+		const [users] = await pool.query('select * from users ')
 		res.status(200).json({ success: true, data: users })
 	} catch (err) {
 		res
 			.status(500)
 			.json({ message: 'Something went wrong', error: err.message })
 	}
-}
+})
 
 // get all products of a shop
-exports.updateCustomer = async (req, res, next) => {
+exports.updateCustomer = asyncHandler(async (req, res, next) => {
 	try {
 		const userId = req.params.id // Assuming userId is passed in the request URL
 
-		const { company, ...rest } = req.body
 		const updateUser = {
-			...rest
+			...req.body
 		}
 
 		// Construct the SET part of the SQL query dynamically
@@ -420,58 +323,15 @@ exports.updateCustomer = async (req, res, next) => {
 
 		const [result] = await pool.query(query, [...updateValues])
 
-		//  need to add the companies into usercompany table one by one
-
-		const companies = req.body.company
-
-		// Start a transaction
-		await pool.query('START TRANSACTION')
-
-		try {
-			// Delete existing records for the specified uid
-			await pool.query('DELETE FROM usercompany WHERE uid = ?', [userId])
-
-			// Construct the SQL query dynamically to insert new records
-			let sql = 'INSERT INTO usercompany (uid, cid, createdAt) VALUES '
-			const values = []
-
-			// Add each selected company to the query
-			companies.forEach((company, index) => {
-				sql += '(?, ?, NOW()), '
-				values.push(userId, company.cid)
-			})
-
-			// Remove the trailing comma and space
-			sql = sql.slice(0, -2)
-
-			// Execute the insert query
-			await pool.query(sql, values)
-
-			// Commit the transaction
-			await pool.query('COMMIT')
-
-			// Send success response
-			res.send({ success: true, message: 'Records inserted successfully' })
-		} catch (error) {
-			// Rollback the transaction if an error occurs
-			await pool.query('ROLLBACK')
-			// Handle error
-			console.error('Error:', error)
-			// Send error response
-
-			res
-				.status(500)
-				.send({ success: false, message: 'Records not inserted successfully' })
-		}
+		res.status(200).json({ success: true })
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 // get all products of a shop
-exports.logoutUserAccount = async (req, res, next) => {
+exports.logoutUserAccount = asyncHandler(async (req, res, next) => {
 	try {
 		const userId = req.params.id // Assuming userId is passed in the request URL
-		console.log(userId)
 		const updateUser = {
 			isLoggedIn: 0
 		}
@@ -483,7 +343,6 @@ exports.logoutUserAccount = async (req, res, next) => {
 		const updateValues = Object.values(updateUser)
 
 		const query = `UPDATE users SET ${updateFields} WHERE id = ${userId}`
-		console.log(query)
 
 		const [result] = await pool.query(query, [...updateValues])
 
@@ -523,14 +382,14 @@ exports.logoutUserAccount = async (req, res, next) => {
 		//////////////////////////////////////////////////////////////////////
 
 		const [requests] = await pool.query(`
-				SELECT 
+				SELECT
 					useractivities.*,
 					users.*
-				FROM 
+				FROM
 					useractivities
 				JOIN
 					users ON useractivities.id = users.id
-			  
+
 			`)
 
 		res.json({ success: true, product: requests })
@@ -538,9 +397,9 @@ exports.logoutUserAccount = async (req, res, next) => {
 		console.log(err)
 		return next(err)
 	}
-}
+})
 // get all products of a shop
-exports.updatePassword = async (req, res, next) => {
+exports.updatePassword = asyncHandler(async (req, res, next) => {
 	try {
 		const id = req.params.id // Assuming userId is passed in the request URL
 
@@ -564,9 +423,9 @@ exports.updatePassword = async (req, res, next) => {
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
-exports.resetUserPassword = async (req, res, next) => {
+exports.resetUserPassword = asyncHandler(async (req, res, next) => {
 	try {
 		const userId = req.params.id // Assuming userId is passed in the request URL
 
@@ -594,10 +453,10 @@ exports.resetUserPassword = async (req, res, next) => {
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
 // Activation function
-exports.Activation = async (req, res, next) => {
+exports.Activation = asyncHandler(async (req, res, next) => {
 	try {
 		const [user, fields] = await pool.query(
 			'SELECT * FROM users WHERE id = ?',
@@ -628,10 +487,10 @@ exports.Activation = async (req, res, next) => {
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
 // delete user controller
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = asyncHandler(async (req, res) => {
 	const userID = req.params.id
 
 	const { currentUserId, currentUserAdminStatus } = req.body
@@ -651,12 +510,12 @@ exports.deleteUser = async (req, res) => {
 	} else {
 		res.status(403).json('Access Denied! You can delete own profile!')
 	}
-}
+})
 
 // userController.js
 
 // Function to retrieve a user by ID
-exports.getUserById = async (req, res, next) => {
+exports.getUserById = asyncHandler(async (req, res, next) => {
 	try {
 		const userId = req.params.id
 		const [rows, fields] = await pool.query(
@@ -671,10 +530,10 @@ exports.getUserById = async (req, res, next) => {
 	} catch (error) {
 		next(error)
 	}
-}
+})
 
 // Function to update a user by ID
-exports.updateUser = async (req, res, next) => {
+exports.updateUser = asyncHandler(async (req, res, next) => {
 	try {
 		const userId = req.params.id
 		const { name, email } = req.body
@@ -690,10 +549,10 @@ exports.updateUser = async (req, res, next) => {
 	} catch (error) {
 		next(error)
 	}
-}
+})
 
 // Function to delete a user by ID
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUser = asyncHandler(async (req, res, next) => {
 	try {
 		const userId = req.params.id
 		const [result] = await pool.query('DELETE FROM users WHERE id = ?', [
@@ -707,4 +566,4 @@ exports.deleteUser = async (req, res, next) => {
 	} catch (error) {
 		next(error)
 	}
-}
+})

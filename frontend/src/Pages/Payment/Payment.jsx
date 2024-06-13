@@ -79,7 +79,7 @@ const Payment = () => {
 	const getTotalExpenseForDate = (expenses, targetDate) => {
 		// Filter expenses for the target date
 
-		const expensesForDate = expenses.filter(
+		const expensesForDate = expenses?.filter(
 			expense =>
 				new Date(expense.date).toISOString().split('T')[0] ===
 				new Date(targetDate).toISOString().split('T')[0]
@@ -95,7 +95,7 @@ const Payment = () => {
 	}
 
 	useLayoutEffect(() => {
-		const total = expenses.reduce(
+		const total = expenses?.reduce(
 			(total, current) => total + +current.amount,
 			0
 		)
@@ -131,8 +131,8 @@ const Payment = () => {
 									fontSize: '1.5em',
 									fontWeight: 600
 								}}>
-								{userCompanies.length === 1 ? (
-									companies.find(comp => comp.cid === userCompanies[0].cid).name
+								{userCompanies?.length === 1 ? (
+									companies?.find(comp => comp.cid === userCompanies[0].cid)?.name
 								) : (
 									<select
 										className="form-select  form-control me-auto"
@@ -143,11 +143,11 @@ const Payment = () => {
 											border: 'none',
 											backgroundColor: 'transparent'
 										}}>
-										{userCompanies.map(userCompany => (
+										{userCompanies?.map(userCompany => (
 											<option value={userCompany.cid} key={userCompany.cid}>
 												{
-													companies.find(comp => comp.cid === userCompany.cid)
-														.name
+													companies?.find(comp => comp.cid === userCompany.cid)
+														?.name
 												}
 											</option>
 										))}

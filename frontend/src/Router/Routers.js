@@ -11,10 +11,9 @@ import { useEffect } from 'react'
 import Header from '../Components/Header/Header'
 import { getAccountRequests } from '../Actions/AccountRequestActions'
 
-import { getRequests } from '../Actions/RequestActions'
 import LoadingSpinner from '../Components/LoadingSpinner/LoadingSpinner'
 import { autoLogin } from '../Actions/AuthAction'
-import { getUserActivities, getUsers } from '../Actions/userAction'
+import { getUsers } from '../Actions/userAction'
 import { getUserComponies, getcompanies } from '../Actions/CompanyActions'
 
 const Routers = () => {

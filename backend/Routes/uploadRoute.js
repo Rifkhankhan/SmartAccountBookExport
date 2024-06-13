@@ -1,16 +1,7 @@
-const router = require('express').Router()
-const {
-	CreateRequest,
-	getRequest,
-	getRequests,
-	updateRequest,
-	ToggleRequest,
-	getActors
-} = require('../Controllers/AccountRequestController')
-const { admin, protect } = require('./../Middleware/authMiddlewate.js')
 const path = require('path')
 const express = require('express')
 const multer = require('multer')
+const router = express.Router()
 
 const storage = multer.diskStorage({
 	destination(req, file, cb) {
@@ -41,19 +32,12 @@ const upload = multer({
 	storage
 })
 
-// add new request
-router.post('/', upload.single('file'), protect, CreateRequest)
-
-// gets
-router.get('/', protect, getRequests)
-
-// update
-router.put('/:id', upload.single('file'), protect, updateRequest)
-
-// ToggleDisable
-router.put('/disable/:id', protect, ToggleRequest)
-
-// get product
-router.get('/:id', protect, getRequest)
+router.post('/', upload.single('file'), (req, res) => {
+	console.log(req.file)
+	res.send({
+		message: 'Image uploaded',
+		image: `${req.file.filename}`
+	})
+})
 
 module.exports = router

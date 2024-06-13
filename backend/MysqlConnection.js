@@ -2,10 +2,18 @@ const mysql = require('mysql2/promise')
 require('dotenv').config() // Load environment variables from .env file
 // Create MySQL connection pool
 const pool = mysql.createPool({
-	host: process.env.DB_HOST || 'localhost',
-	user: process.env.DB_USER || 'root',
-	password: process.env.DB_PASSWORD || 'Mysql@123',
-	database: process.env.DB_NAME || 'smartexport'
+	host:
+		process.env.NODE_ENV !== 'development' ? process.env.DB_HOST : 'localhost',
+	user: process.env.NODE_ENV !== 'development' ? process.env.DB_USER : 'root',
+	password:
+		process.env.NODE_ENV !== 'development'
+			? process.env.DB_PASSWORD
+			: 'Mysql@123',
+	database:
+		process.env.NODE_ENV !== 'development'
+			? process.env.DB_NAME
+			: 'smartaccount',
+	port: process.env.NODE_ENV !== 'development' ? process.env.DB_PORT : null
 })
 
 // Check database connection

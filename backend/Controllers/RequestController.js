@@ -4,15 +4,16 @@ const { v4: uuid } = require('uuid')
 
 const pool = require('../MysqlConnection')
 const multer = require('multer')
+const asyncHandler = require('../Middleware/asyncHandler')
 
 // get all products
-exports.getRequests = async (req, res, next) => {
+exports.getRequests = asyncHandler(async (req, res, next) => {
 	try {
 		const [requests] = await pool.query(`
-            SELECT 
+            SELECT
                 requests.*,
                 users.name
-            FROM 
+            FROM
                 requests
             JOIN
                 users ON requests.id = users.id
@@ -24,10 +25,9 @@ exports.getRequests = async (req, res, next) => {
 	} catch (err) {
 		return next(err)
 	}
-}
+})
 
-exports.resetData = async (req, res, next) => {
-	console.log(req.body)
+exports.resetData = asyncHandler(async (req, res, next) => {
 	try {
 		const [product, fields] = await pool.query(
 			'SELECT * FROM accountrequest WHERE arid = ?',
@@ -41,8 +41,6 @@ exports.resetData = async (req, res, next) => {
 			status: product[0].status ? 1 : 0,
 			deleteAt: null
 		}
-
-		console.log(updateProduct)
 
 		// Construct the SET part of the SQL query dynamically
 		const updateFields = Object.keys(updateProduct)
@@ -95,10 +93,10 @@ exports.resetData = async (req, res, next) => {
 
 		if (result.affectedRows > 0 && requestResult.affectedRows > 0) {
 			const [requests] = await pool.query(`
-            SELECT 
+            SELECT
                 requests.*,
                 users.name
-            FROM 
+            FROM
                 requests
             JOIN
                 users ON requests.id = users.id
@@ -108,8 +106,6 @@ exports.resetData = async (req, res, next) => {
 
 			const [accountrequests] = await pool.query('select * from accountrequest')
 
-			console.log(accountrequests)
-			console.log(requests)
 			res.status(200).json({
 				success: true,
 				requests: requests,
@@ -122,4 +118,4 @@ exports.resetData = async (req, res, next) => {
 		console.log(err)
 		return next(err)
 	}
-}
+})

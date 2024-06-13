@@ -19,22 +19,24 @@ const {
 	logoutUserAccount
 } = require('../Controllers/usercontroller.js')
 
+const { admin, protect } = require('../Middleware/authMiddlewate.js')
+
 // get user
-router.post('/createUser', createCustomer)
-router.post('/autoLogin/:token', autoLogin)
+router.post('/createUser', protect, createCustomer)
+router.post('/autoLogin', protect, autoLogin)
 router.post('/signin', usersignin)
-router.post('/logout/:token', logout)
-router.put('/logoutUserAccount/:id', logoutUserAccount)
-router.get('/', getCustomers)
-router.get('/activities', getUserActivities)
-router.put('/:id', updateCustomer)
-router.put('/reset/:id', resetUserPassword)
-router.put('/updatePassword/:id', updatePassword)
+router.post('/logout', protect, logout)
+router.put('/logoutUserAccount/:id', protect, admin, logoutUserAccount)
+router.get('/', protect, admin, getCustomers)
+router.get('/activities', protect, admin, getUserActivities)
+router.put('/:id', protect, admin, updateCustomer)
+router.put('/reset/:id', protect, admin, resetUserPassword)
+router.put('/updatePassword/:id', protect, updatePassword)
 
 // get user by token
 
 // user sign in
-router.put('/activate/:id', Activation)
+router.put('/activate/:id', protect, admin, Activation)
 
 // upload profile image
 

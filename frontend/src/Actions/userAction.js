@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-expressions */
 // import swal from 'sweetalert'
 import swal from 'sweetalert'
-import * as UserApi from './../Apis/UserRequest'
+import * as UserApi from '../Apis/UserRequest'
 import { authActions } from '../store/AuthSlice'
-
-import { userActions } from './../store/UserSlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { userActions } from '../store/UserSlice'
 
 export const activateToggle = id => async dispatch => {
 	dispatch(authActions.handleLoading())
@@ -51,7 +50,6 @@ export const activateToggle = id => async dispatch => {
 	}
 	dispatch(authActions.handleLoading())
 }
-
 export const createUser = formData => async dispatch => {
 	dispatch(authActions.handleLoading())
 	try {
