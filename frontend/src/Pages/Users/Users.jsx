@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CreateUser from '../../Components/CreateUser/CreateUser'
 import UsersTable from '../../Components/UsersTable/UsersTable'
 import Model from '../../Components/Model/Model'
-import { getUserActivities } from '../../Actions/userAction'
+import { getUserActivities, getUsers } from '../../Actions/userAction'
 import ResetPasswordModel from '../../Components/ResetPasswordModel/ResetPasswordModel'
 import DataActivityTable from '../../Components/DataActivityTable/DataActivityTable'
 import UserActivityTable from '../../Components/UserActivityTable/UserActivityTable'
@@ -33,6 +33,8 @@ const Users = () => {
 		dispatch(getRequests())
 		dispatch(getUserActivities())
 		dispatch(getcompanies())
+		dispatch(getUsers())
+		// dispatch(get)
 	}, [dispatch])
 
 	const deleteRequests = useSelector(

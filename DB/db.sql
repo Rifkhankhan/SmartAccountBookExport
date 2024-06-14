@@ -25,6 +25,15 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `company` (
+  `cid` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `createdAt` varchar(100) DEFAULT NULL,
+  `deletedAt` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`cid`)
+) ;
+
 CREATE TABLE `accountrequest` (
   `arid` int NOT NULL AUTO_INCREMENT,
   `amount` varchar(45) NOT NULL,
@@ -47,14 +56,7 @@ CREATE TABLE `accountrequest` (
   CONSTRAINT `accountrequest_ibfk_2` FOREIGN KEY (`cid`) REFERENCES `company` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `company` (
-  `cid` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
-  `location` varchar(100) DEFAULT NULL,
-  `createdAt` varchar(100) DEFAULT NULL,
-  `deletedAt` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`cid`)
-) ;
+
 
 CREATE TABLE `usercompany` (
   `usid` int NOT NULL AUTO_INCREMENT,
