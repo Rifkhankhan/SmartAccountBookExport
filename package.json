@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodeman backend/app.js",
-    "server": "nodeman backend/app.js",
+    "start": "node backend/app.js",
+    "server": "node backend/app.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "data:import": "nodeman backend/app.js",
-    "data:destroy": "nodeman backend/app.js -d",
+    "data:import": "node backend/app.js",
+    "data:destroy": "node backend/app.js -d",
     "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend",
     "i": "npm install --legacy-peer-deps  && npm install --legacy-peer-deps --prefix  frontend"
   },

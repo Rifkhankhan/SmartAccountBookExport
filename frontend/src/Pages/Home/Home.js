@@ -570,6 +570,104 @@ const Home = () => {
 				</div>
 			)}
 
+				{/* Cards */}
+				<Container fluid>
+				<Row
+					style={{
+						width: '100%',
+						marginInline: 'auto',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						minWidth: '35vh'
+					}}>
+					{/* Profit */}
+					<Col
+						sm={12}
+						md={4}
+						lg={3}
+						xl={2}
+						className="m-1 text-bg-dark"
+						style={cardStyle}>
+						<p style={textStyleSmall} className=" text-center">
+							Profit
+						</p>
+
+						<p style={textStyleLarge} className=" text-center">
+							{totalIncomes - totalExpanses}
+						</p>
+					</Col>
+					{/* Balance */}
+					<Col
+						sm={12}
+						md={4}
+						lg={3}
+						xl={2}
+						className="m-1 text-bg-danger"
+						style={cardStyle}>
+						<p style={textStyleSmall} className=" text-center">
+							Balance
+						</p>
+
+						<p style={textStyleLarge} className=" text-center">
+							{balance}
+						</p>
+					</Col>
+
+					{/* Expenses */}
+					<Col
+						sm={12}
+						md={4}
+						lg={3}
+						xl={2}
+						className="m-1 text-bg-primary"
+						style={cardStyle}>
+						<Row>
+							<p style={textStyleSmall} className=" text-center">
+								Expenses
+							</p>
+
+							<p style={textStyleLarge} className=" text-center">
+								{totalExpanses}
+							</p>
+						</Row>
+					</Col>
+
+					{/* Advance (Credit) */}
+					<Col
+						sm={12}
+						md={4}
+						lg={3}
+						xl={2}
+						className="m-1 text-bg-secondary"
+						style={cardStyle}>
+						<p style={textStyleSmall} className=" text-center">
+							Advance (C)
+						</p>
+
+						<p style={textStyleLarge} className=" text-center">
+							{gotAdvance}
+						</p>
+					</Col>
+
+					{/* Advance (Debit) */}
+					<Col
+						sm={12}
+						md={4}
+						lg={3}
+						xl={2}
+						className="m-1 text-bg-warning"
+						style={cardStyle}>
+						<p style={textStyleSmall} className=" text-center">
+							Advance (D)
+						</p>
+
+						<p style={textStyleLarge} className=" text-center">
+							{paidAdvance}
+						</p>
+					</Col>
+				</Row>
+			</Container>
 			{/* Cards */}
 			<Container fluid>
 				<Row
@@ -581,324 +679,44 @@ const Home = () => {
 						justifyContent: 'center',
 						minWidth: '35vh'
 					}}>
-					{/* Profit */}
-					<Col sm={12} md={4} lg={3} xl={2} className="m-1" style={cardStyle}>
-						<Row>
-							<Col xs={1} className="my-auto">
-								<FontAwesomeIcon
-									icon={faHeart}
-									fontSize="8vh"
-									color="darkblue"
-								/>
-							</Col>
-							<Col xs={10} className="ms-auto">
-								<Row>
-									<p style={textStyleSmall}>Profit</p>
-								</Row>
-								<Row>
-									<p style={textStyleLarge}>{totalIncomes - totalExpanses}</p>
-								</Row>
-							</Col>
-						</Row>
-					</Col>
-					{/* Balance */}
-					<Col sm={12} md={4} lg={3} xl={2} className="m-1" style={cardStyle}>
-						<Row>
-							<Col xs={1} className="my-auto">
-								<FontAwesomeIcon
-									icon={faHandHolding}
-									fontSize="8vh"
-									color="darkblue"
-								/>
-							</Col>
-							<Col xs={10} className="ms-auto">
-								<Row>
-									<p style={textStyleSmall}>Balance</p>
-								</Row>
-								<Row>
-									<p style={textStyleLarge}>{balance}</p>
-								</Row>
-							</Col>
-						</Row>
+					<Col className="text-bg-light m-1 rounded">
+						<p style={textStyleSmall} className=" text-center">
+							Income
+						</p>
+						<p style={textStyleLarge} className=" text-center">
+							{totalIncomes}
+						</p>
 					</Col>
 
-					{/* Expenses */}
-					<Col sm={12} md={4} lg={3} xl={2} className="m-1" style={cardStyle}>
-						<Row>
-							<Col xs={1} className="my-auto">
-								<FontAwesomeIcon
-									icon={faMoneyBill}
-									fontSize="8vh"
-									color="darkblue"
-								/>
-							</Col>
-							<Col xs={10} className="ms-auto">
-								<Row>
-									<p style={textStyleSmall}>Expenses</p>
-								</Row>
-								<Row>
-									<p style={textStyleLarge}>{totalExpanses}</p>
-								</Row>
-							</Col>
-						</Row>
+					<Col
+						className=" m-1 rounded"
+						style={{ backgroundColor: 'red', color: 'white' }}>
+						<p style={textStyleSmall} className=" text-center">
+							Capital
+						</p>
+						<p style={textStyleLarge} className=" text-center">
+							{captitalAmount}
+						</p>
+					</Col>
+					<Col className="text-bg-info m-1 rounded">
+						<p style={textStyleSmall} className=" text-center">
+							Loan(C)
+						</p>
+						<p style={textStyleLarge} className=" text-center">
+							{gotLoan}
+						</p>
 					</Col>
 
-					{/* Advance (Credit) */}
-					<Col sm={12} md={4} lg={3} xl={2} className="m-1" style={cardStyle}>
-						<Row>
-							<Col xs={1} className="my-auto">
-								<FontAwesomeIcon
-									icon={faMoneyBillTransfer}
-									fontSize="8vh"
-									color="darkblue"
-								/>
-							</Col>
-							<Col xs={10} className="ms-auto">
-								<Row>
-									<p style={textStyleSmall}>Advance (C)</p>
-								</Row>
-								<Row>
-									<p style={textStyleLarge}>{gotAdvance}</p>
-								</Row>
-							</Col>
-						</Row>
-					</Col>
-
-					{/* Advance (Debit) */}
-					<Col sm={12} md={4} lg={3} xl={2} className="m-1" style={cardStyle}>
-						<Row>
-							<Col xs={1} className="my-auto">
-								<FontAwesomeIcon
-									icon={faMoneyBillTrendUp}
-									fontSize="8vh"
-									color="darkblue"
-								/>
-							</Col>
-							<Col xs={10} className="ms-auto">
-								<Row>
-									<p style={textStyleSmall}>Advance (D)</p>
-								</Row>
-								<Row>
-									<p style={textStyleLarge}>{paidAdvance}</p>
-								</Row>
-							</Col>
-						</Row>
+					<Col className="text-bg-success m-1 rounded">
+						<p style={textStyleSmall} className=" text-center">
+							Loans(D)
+						</p>
+						<p style={textStyleLarge} className=" text-center">
+							{paidLoan}
+						</p>
 					</Col>
 				</Row>
 			</Container>
-			{/* Cards */}
-			<div className="container-fluid" style={{ marginInline: 'auto' }}>
-				<div
-					className="row"
-					style={{
-						width: '100%',
-						marginInline: 'auto',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						minWidth: '35vh'
-					}}>
-					<div
-						className=" col-md-auto col-12 m-1"
-						style={{
-							background: 'white',
-							backdropFilter: 'blur(20px) saturate(113%)',
-							WebkitBackdropFilter: 'blur(20px) saturate(113%)',
-							backgroundColor: 'rgba(255, 255, 255, 200)',
-
-							borderRadius: '12px',
-							border: '1px solid rgba(209, 213, 219, 0.3)'
-						}}>
-						<div
-							className="row"
-							style={{ height: '75%', position: 'relative' }}>
-							<FontAwesomeIcon
-								icon={faDollar}
-								fontSize="8vh"
-								width="105px"
-								color="darkblue"
-								style={{
-									margin: 'auto'
-								}}
-								className="col"
-							/>
-							<div className="col" style={{ margin: 'auto' }}>
-								<p
-									style={{
-										fontSize: '3vh',
-
-										textAlign: 'right',
-										height: '30%',
-										paddingInline: '2vh',
-										margin: '0%'
-									}}>
-									Income
-								</p>
-								<p
-									style={{
-										fontSize: '4.5vh',
-										fontWeight: '700',
-										textAlign: 'right',
-										paddingInline: '2vh',
-
-										margin: '0%'
-									}}>
-									{totalIncomes}
-								</p>
-							</div>
-						</div>
-					</div>
-					<div
-						className=" col-md-auto col-12 m-1"
-						style={{
-							background: 'white',
-							backdropFilter: 'blur(20px) saturate(113%)',
-							WebkitBackdropFilter: 'blur(20px) saturate(113%)',
-							backgroundColor: 'rgba(255, 255, 255, 200)',
-
-							borderRadius: '12px',
-							border: '1px solid rgba(209, 213, 219, 0.3)'
-						}}>
-						<div
-							className="row"
-							style={{ height: '75%', position: 'relative' }}>
-							<FontAwesomeIcon
-								icon={faCreditCard}
-								fontSize="8vh"
-								color="darkblue"
-								style={{
-									margin: 'auto'
-								}}
-								className="col"
-							/>
-							<div className="col" style={{ margin: 'auto' }}>
-								<p
-									style={{
-										fontSize: '3vh',
-
-										textAlign: 'right',
-										height: '30%',
-										paddingInline: '2vh',
-										margin: '0%'
-									}}>
-									Capital
-								</p>
-								<p
-									style={{
-										fontSize: '4.5vh',
-										fontWeight: '700',
-										textAlign: 'right',
-										paddingInline: '2vh',
-
-										margin: '0%'
-									}}>
-									{captitalAmount}
-								</p>
-							</div>
-						</div>
-					</div>
-					<div
-						className=" col-md-auto col-12 m-1"
-						style={{
-							background: 'white',
-							backdropFilter: 'blur(20px) saturate(113%)',
-							WebkitBackdropFilter: 'blur(20px) saturate(113%)',
-							backgroundColor: 'rgba(255, 255, 255, 200)',
-
-							borderRadius: '12px',
-							border: '1px solid rgba(209, 213, 219, 0.3)'
-						}}>
-						<div
-							className="row"
-							style={{ height: '75%', position: 'relative' }}>
-							<FontAwesomeIcon
-								icon={faPiggyBank}
-								fontSize="8vh"
-								color="darkblue"
-								style={{
-									margin: 'auto'
-								}}
-								className="col"
-							/>
-							<div className="col" style={{ margin: 'auto' }}>
-								<p
-									style={{
-										fontSize: '3vh',
-
-										textAlign: 'right',
-										height: '30%',
-										paddingInline: '2vh',
-										margin: '0%'
-									}}>
-									Loan(Credit)
-								</p>
-								<p
-									style={{
-										fontSize: '4.5vh',
-										fontWeight: '700',
-										textAlign: 'right',
-										paddingInline: '2vh',
-
-										margin: '0%'
-									}}>
-									{gotLoan}
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div
-						className=" col-md-auto col-12 m-1"
-						style={{
-							background: 'white',
-
-							backdropFilter: 'blur(20px) saturate(113%)',
-							WebkitBackdropFilter: 'blur(20px) saturate(113%)',
-							backgroundColor: 'rgba(255, 255, 255, 200)',
-
-							borderRadius: '12px',
-							border: '1px solid rgba(209, 213, 219, 0.3)'
-						}}>
-						<div
-							className="row"
-							style={{ height: '75%', position: 'relative' }}>
-							<FontAwesomeIcon
-								icon={faBank}
-								fontSize="8vh"
-								color="darkblue"
-								style={{
-									margin: 'auto'
-								}}
-								className="col"
-							/>
-							<div className="col" style={{ margin: 'auto' }}>
-								<p
-									style={{
-										fontSize: '3vh',
-
-										textAlign: 'right',
-										height: '30%',
-										paddingInline: '2vh',
-										margin: '0%'
-									}}>
-									Loans(Debit)
-								</p>
-								<p
-									style={{
-										fontSize: '4.5vh',
-										fontWeight: '700',
-										textAlign: 'right',
-										paddingInline: '2vh',
-
-										margin: '0%'
-									}}>
-									{paidLoan}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 
 			<section className={`container-fluid mt-3`}>
 				<h2 style={{ textAlign: 'left', color: 'white' }}>Account Works</h2>
