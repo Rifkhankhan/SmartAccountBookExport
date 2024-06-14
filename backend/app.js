@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser')
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8000
 // Middleware setup
 app.use(cookieParser())
 app.use(bodyParser.json())
