@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
-const asyncHandler = require('../Middleware/asyncHandler')
 
-const generateToken = asyncHandler(async (res, id) => {
+const generateToken = (res, id) => {
+	console.log(id)
 	try {
 		const token = jwt.sign({ id: id }, process.env.SECRET_KEY, {
 			expiresIn: '30d'
 		})
+		console.log(token)
 
 		// Set JWT as HTTP-only cookie
 		res.cookie('SABExport', token, {
@@ -20,6 +21,6 @@ const generateToken = asyncHandler(async (res, id) => {
 		console.error('Error generating token', error)
 		res.status(500).send({ message: error })
 	}
-})
+}
 
 module.exports = generateToken
