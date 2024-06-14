@@ -11,4 +11,4 @@ INSERT INTO users (id, name, password, expansePermission, expanseEditPermission,
 (4, 'SysAdmin', '$2b$12$ChRvg59PVIOyjFtM4/QrhOTzBZX5U3fPiui43.we42JM5IHY9Idhi', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes',
 1,
 0, '', '',
-0, 'no', 'no', 'no')
+0, 'yes', 'yes', 'yes')
