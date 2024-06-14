@@ -4,12 +4,13 @@ const {
 	getcompanies,
 	getUserComponies
 } = require('../Controllers/CompanyController')
+const { protect, admin } = require('../Middleware/authMiddlewate')
 
 // add new request
-router.post('/', CreateCompany)
+router.post('/', protect, admin, CreateCompany)
 
 // gets
-router.get('/', getcompanies)
-router.get('/:id', getUserComponies)
+router.get('/', protect, admin, getcompanies)
+router.get('/:id', protect, admin, getUserComponies)
 
 module.exports = router

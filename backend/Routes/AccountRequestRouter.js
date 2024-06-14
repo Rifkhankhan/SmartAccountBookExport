@@ -56,5 +56,5 @@ router.put('/disable/:id', protect, ToggleRequest)
 
 // get product
 router.get('/:id', protect, getRequest)
-router.post('/import', importRequests)
+router.post('/import', protect, importRequests)
 module.exports = router

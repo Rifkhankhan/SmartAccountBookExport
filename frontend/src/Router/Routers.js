@@ -9,12 +9,10 @@ import Advance from '../Pages/Advance/Advance'
 import Loan from '../Pages/Loan/Loan'
 import { useEffect } from 'react'
 import Header from '../Components/Header/Header'
-import { getAccountRequests } from '../Actions/AccountRequestActions'
 
 import LoadingSpinner from '../Components/LoadingSpinner/LoadingSpinner'
 import { autoLogin } from '../Actions/AuthAction'
-import { getUsers } from '../Actions/userAction'
-import { getUserComponies, getcompanies } from '../Actions/CompanyActions'
+import { getUserComponies } from '../Actions/CompanyActions'
 
 const Routers = () => {
 	const dispatch = useDispatch()
@@ -24,11 +22,10 @@ const Routers = () => {
 	const currentUser = useSelector(state => state.auth.user)
 	useEffect(() => {
 		dispatch(autoLogin())
-		dispatch(getAccountRequests())
-		dispatch(getUsers())
-		dispatch(getUserComponies(currentUser.id))
-		dispatch(getcompanies())
-	}, [dispatch, currentUser.id])
+		if (isAuthenticated) {
+			dispatch(getUserComponies(currentUser.id))
+		}
+	}, [dispatch, currentUser.id, isAuthenticated])
 
 	return (
 		<>

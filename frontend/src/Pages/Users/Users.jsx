@@ -30,7 +30,6 @@ const Users = () => {
 	const currentUser = useSelector(state => state.auth.user)
 
 	useEffect(() => {
-		dispatch(getAccountRequests())
 		dispatch(getRequests())
 		dispatch(getUserActivities())
 		dispatch(getcompanies())
