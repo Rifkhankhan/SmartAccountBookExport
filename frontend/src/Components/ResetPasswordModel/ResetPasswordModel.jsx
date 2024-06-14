@@ -3,10 +3,8 @@ import { Button, Modal } from 'react-bootstrap'
 import styles from './ResetPasswordModel.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose, faPen } from '@fortawesome/free-solid-svg-icons'
-import { updateReceipt } from '../../Actions/ReceiptActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateLoan } from '../../Actions/LoanActions'
-import { updatePassword, updateUser } from '../../Actions/userAction'
+import { updatePassword } from '../../Actions/userAction'
 
 const ResetPasswordModel = ({ selectedUser, showModal, closeHandler }) => {
 	const currentUser = useSelector(state => state.auth.user)

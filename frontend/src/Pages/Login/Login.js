@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Login.module.css'
-import man from './../../Images/man.png'
 import logo from './../../Images/logo.jpg'
 import { useDispatch, useSelector } from 'react-redux'
-import { authActions } from '../../store/AuthSlice'
 import { useNavigate } from 'react-router-dom'
 import { logIn } from '../../Actions/AuthAction'
 import LoadingSpinner from './../../Components/LoadingSpinner/LoadingSpinner'
-import { getUsers } from '../../Actions/userAction'
 const Login = props => {
 	const [formSubmit, setFormSubmit] = useState(false)
 	const dispatch = useDispatch()

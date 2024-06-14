@@ -1,12 +1,12 @@
 import swal from 'sweetalert'
-import * as AccountRequestApis from '../Apis/AccountRequestApis'
+import * as CompanyApis from '../Apis/CompanyApis'
 import { CompanyActions } from '../store/CompanySlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 export const createCompany = formData => async dispatch => {
 	dispatch(CompanyActions.handleLoading())
 	try {
-		const { data } = await AccountRequestApis.createCompany(formData)
+		const { data } = await CompanyApis.createCompany(formData)
 
 		if (data.success) {
 			dispatch(CompanyActions.createCompany(data.requests))
@@ -16,7 +16,7 @@ export const createCompany = formData => async dispatch => {
 		}
 	} catch (error) {
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -28,7 +28,7 @@ export const createCompany = formData => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -43,22 +43,32 @@ export const createCompany = formData => async dispatch => {
 export const getcompanies = () => async dispatch => {
 	dispatch(CompanyActions.handleLoading())
 	try {
-		const { data } = await AccountRequestApis.getcompanies()
+		const { data } = await CompanyApis.getcompanies()
 
 		if (data.success) {
 			dispatch(CompanyActions.getcompanies(data.product))
 		}
 	} catch (error) {
 		if (error.response?.status === 400) {
-			swal('Oops! Something Wrong', error.response.data.message, 'error')
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 404) {
-			swal("You don't have Account", error.response.data.message, 'error')
+			toast.error(`You don't have an Account: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 409) {
-			swal('Oops! Something Wrong', error.response.data.message, 'error')
+			toast.error(`Oops! You have no access: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 408) {
-			swal('Oops! You have no access', error.response.data.message, 'error')
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 500) {
-			swal('Internal Server Error', error.response.data.message, 'error')
+			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		}
 	}
 	dispatch(CompanyActions.handleLoading())
@@ -67,22 +77,32 @@ export const getcompanies = () => async dispatch => {
 export const getUserComponies = id => async dispatch => {
 	dispatch(CompanyActions.handleLoading())
 	try {
-		const { data } = await AccountRequestApis.getUserComponies(id)
+		const { data } = await CompanyApis.getUserComponies(id)
 
 		if (data.success) {
 			dispatch(CompanyActions.getUserCompanies(data.product))
 		}
 	} catch (error) {
 		if (error.response?.status === 400) {
-			swal('Oops! Something Wrong', error.response.data.message, 'error')
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 404) {
-			swal("You don't have Account", error.response.data.message, 'error')
+			toast.error(`You don't have an Account: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 409) {
-			swal('Oops! Something Wrong', error.response.data.message, 'error')
+			toast.error(`Oops! You have no access: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 408) {
-			swal('Oops! You have no access', error.response.data.message, 'error')
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		} else if (error.response?.status === 500) {
-			swal('Internal Server Error', error.response.data.message, 'error')
+			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+				autoClose: 2000
+			})
 		}
 	}
 	dispatch(CompanyActions.handleLoading())

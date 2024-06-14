@@ -7,6 +7,7 @@ const dotenv = require('dotenv')
 const userrouter = require('./Routes/userrouter')
 const AccountRequestRouter = require('./Routes/AccountRequestRouter')
 const RequestRouter = require('./Routes/RequestRouter')
+const CompanyRouter = require('./Routes/CompanyRouter')
 const cookieParser = require('cookie-parser')
 
 dotenv.config()
@@ -40,7 +41,7 @@ app.use(cors(corsOptions))
 app.use('/user', userrouter)
 app.use('/accountRequest', AccountRequestRouter)
 app.use('/requests', RequestRouter)
-
+app.use('/company', CompanyRouter)
 // Express Server
 const server = app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`)

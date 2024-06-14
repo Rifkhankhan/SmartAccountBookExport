@@ -11,7 +11,6 @@ import {
 	faPen,
 	faPrint
 } from '@fortawesome/free-solid-svg-icons'
-import { updateReceipt } from '../../Actions/ReceiptActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAccountRequest } from '../../Actions/AccountRequestActions'
 import jsPDF from 'jspdf'

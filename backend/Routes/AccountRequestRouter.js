@@ -5,6 +5,7 @@ const {
 	getRequests,
 	updateRequest,
 	ToggleRequest,
+	importRequests,
 	getActors
 } = require('../Controllers/AccountRequestController')
 const { admin, protect } = require('./../Middleware/authMiddlewate.js')
@@ -55,5 +56,5 @@ router.put('/disable/:id', protect, ToggleRequest)
 
 // get product
 router.get('/:id', protect, getRequest)
-
+router.post('/import', importRequests)
 module.exports = router

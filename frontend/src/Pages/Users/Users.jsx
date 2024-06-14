@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './Users.module.css'
-import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 import { useDispatch, useSelector } from 'react-redux'
 import CreateUser from '../../Components/CreateUser/CreateUser'
-import image from './../../Images/man.png'
 import UsersTable from '../../Components/UsersTable/UsersTable'
 import Model from '../../Components/Model/Model'
-import { getUserActivities, getUsers } from '../../Actions/userAction'
+import { getUserActivities } from '../../Actions/userAction'
 import ResetPasswordModel from '../../Components/ResetPasswordModel/ResetPasswordModel'
 import DataActivityTable from '../../Components/DataActivityTable/DataActivityTable'
 import UserActivityTable from '../../Components/UserActivityTable/UserActivityTable'
@@ -19,7 +16,7 @@ import DeleteDataTable from '../../Components/DeleteDataTable/DeleteDataTable'
 import { getAccountRequests } from '../../Actions/AccountRequestActions'
 import CreateCompany from '../../Components/CreateCompany/CreateCompany'
 import CompanyTable from '../../Components/CompanyTable/CompanyTable'
-import { getUserComponies, getcompanies } from '../../Actions/CompanyActions'
+import { getcompanies } from '../../Actions/CompanyActions'
 
 const Users = () => {
 	const dispatch = useDispatch()

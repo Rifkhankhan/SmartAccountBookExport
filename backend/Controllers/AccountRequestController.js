@@ -6,6 +6,69 @@ const pool = require('../MysqlConnection')
 
 const asyncHandler = require('../Middleware/asyncHandler')
 
+exports.importRequests = async (req, res, next) => {
+	const { updatedData: products, id } = req.body // Assuming req.body is an array of objects
+
+	try {
+		for (const product of products) {
+			const newProduct = {
+				date: product.date,
+				amount: product.amount,
+				id: id,
+				cid: product.company,
+				methode: product.method,
+				narration: product.narration,
+				requestType: product.category,
+				requestForm: product['payment type'] || product['paymenttype']
+			}
+
+			const columns = Object.keys(newProduct).join(',')
+			const placeholders = Object.values(newProduct)
+				.map(() => '?')
+				.join(',')
+
+			const query = `INSERT INTO accountrequest (${columns}, createAt) VALUES (${placeholders}, NOW())`
+
+			const [result] = await pool.query(query, Object.values(newProduct))
+
+			const [request] = await pool.query(
+				'SELECT * FROM accountrequest WHERE arid = ?',
+				[result.insertId]
+			)
+			console.log(request)
+
+			// res.json({ success: true, requests: request })
+
+			const requestProduct = {
+				...request[0],
+				id: id,
+				arid: result.insertId
+			}
+			console.log(requestProduct)
+
+			const requestColumns = Object.keys(requestProduct).join(',')
+			const requestPlaceholders = Object.values(requestProduct)
+				.map(() => '?')
+				.join(',')
+
+			const requestQuery = `INSERT INTO requests (${requestColumns}) VALUES (${requestPlaceholders})`
+
+			const [requestResult] = await pool.query(
+				requestQuery,
+				Object.values(requestProduct)
+			)
+		}
+	} catch (error) {
+		console.log(error)
+		res.json({ success: false })
+
+		return next(error)
+	} finally {
+		const [requests] = await pool.query('select * from accountrequest')
+
+		res.json({ success: true, requests: requests })
+	}
+}
 exports.CreateRequest = asyncHandler(async (req, res, next) => {
 	// Access file information
 	const file = req.file

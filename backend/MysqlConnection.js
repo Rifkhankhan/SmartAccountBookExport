@@ -12,7 +12,7 @@ const pool = mysql.createPool({
 	database:
 		process.env.NODE_ENV !== 'development'
 			? process.env.DB_NAME
-			: 'smartaccount',
+			: 'smartexport',
 	port: process.env.NODE_ENV !== 'development' ? process.env.DB_PORT : null
 })
 

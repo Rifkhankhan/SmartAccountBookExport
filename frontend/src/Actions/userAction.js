@@ -24,10 +24,8 @@ export const activateToggle = id => async dispatch => {
 			})
 		}
 	} catch (error) {
-		console.log(error)
-
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -39,7 +37,7 @@ export const activateToggle = id => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -68,7 +66,7 @@ export const createUser = formData => async dispatch => {
 		// dispatch(uiActions.changeAsLoading())
 	} catch (error) {
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -80,7 +78,7 @@ export const createUser = formData => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -106,7 +104,7 @@ export const getUsers = () => async (dispatch, getState) => {
 		// dispatch(uiActions.changeAsLoading())
 	} catch (error) {
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -118,7 +116,7 @@ export const getUsers = () => async (dispatch, getState) => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -146,7 +144,7 @@ export const getUserActivities = () => async (dispatch, getState) => {
 		// dispatch(uiActions.changeAsLoading())
 	} catch (error) {
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -158,7 +156,7 @@ export const getUserActivities = () => async (dispatch, getState) => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -176,10 +174,8 @@ export const getUser = id => async dispatch => {
 	try {
 		const { data } = await UserApi.getCustomer(id)
 	} catch (error) {
-		console.log(error)
-
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -191,7 +187,7 @@ export const getUser = id => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -216,10 +212,8 @@ export const updateUser = (id, formData) => async dispatch => {
 			swal('Oops! Something Wrong', 'Try again please!', 'error')
 		}
 	} catch (error) {
-		console.log(error)
-
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -231,7 +225,7 @@ export const updateUser = (id, formData) => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -255,10 +249,8 @@ export const resetPassword = id => async dispatch => {
 			swal('Oops! Something Wrong', 'Try again please!', 'error')
 		}
 	} catch (error) {
-		console.log(error)
-
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -270,7 +262,7 @@ export const resetPassword = id => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {
@@ -294,10 +286,8 @@ export const updatePassword = (id, formData) => async dispatch => {
 			swal('Oops! Something Wrong', 'Try again please!', 'error')
 		}
 	} catch (error) {
-		console.log(error)
-
 		if (error.response?.status === 400) {
-			toast.error(`Oops! Something Wrong: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 404) {
@@ -309,7 +299,7 @@ export const updatePassword = (id, formData) => async dispatch => {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 408) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
+			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
 		} else if (error.response?.status === 500) {

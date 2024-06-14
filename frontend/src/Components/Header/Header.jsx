@@ -3,12 +3,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './Header.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClose } from '@fortawesome/free-solid-svg-icons'
-import { authActions } from '../../store/AuthSlice'
-import { autoLogin, logout } from '../../Actions/AuthAction'
-import { getAccountRequests } from '../../Actions/AccountRequestActions'
-import { getUsers } from '../../Actions/userAction'
+
+import { logout } from '../../Actions/AuthAction'
+
 function Header() {
 	const [scrolled, setScrolled] = useState(false)
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './CreateCompany.module.css'
-import { useDispatch, useSelector } from 'react-redux'
-import { expanseActions } from '../../store/ExpanseSlice'
+import { useDispatch } from 'react-redux'
 import { createCompany } from '../../Actions/CompanyActions'
 const CreateCompany = ({ header }) => {
 	const [formValid, setFormValid] = useState(true)

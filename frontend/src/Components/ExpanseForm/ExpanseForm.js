@@ -16,7 +16,6 @@ const ExpanseForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 	const [file, setFile] = useState(null)
 	const [excelFile, setExcelFile] = useState(null)
 	const filePickerRef = useRef()
-	const excelFilePickerRef = useRef()
 	//  set
 	// Initial state for inputs
 	const initialInputsState = {

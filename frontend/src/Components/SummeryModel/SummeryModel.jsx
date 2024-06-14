@@ -13,7 +13,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAccountRequest } from '../../Actions/AccountRequestActions'
 import jsPDF from 'jspdf'
-import { getUserComponies, getcompanies } from '../../Actions/CompanyActions'
 const SummeryModel = ({
 	clickedRow,
 	showModal,
