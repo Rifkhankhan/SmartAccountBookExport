@@ -209,8 +209,6 @@ export const getUser = id => async dispatch => {
 	dispatch(authActions.handleLoading())
 }
 export const updateUser = (id, formData) => async dispatch => {
-	// if (!checkCookie()) return
-
 	dispatch(authActions.handleLoading())
 
 	try {

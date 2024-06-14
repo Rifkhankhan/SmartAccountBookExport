@@ -53,3 +53,35 @@ exports.getUserComponies = asyncHandler(async (req, res, next) => {
 		return next(err)
 	}
 })
+
+// get all products of a shop
+exports.updateUserCompanies = asyncHandler(async (req, res, next) => {
+	try {
+		const userId = req.params.id // Assuming userId is passed in the request URL
+
+		// first check whether for the user already access
+
+		const [userAccessed] = pool.query(
+			'select *from usercompany where = ? and cid = ? ',
+			[userId, req.body.cid]
+		)
+
+		const updateUser = {
+			...req.body
+		}
+
+		// Construct the SET part of the SQL query dynamically
+		const updateFields = Object.keys(updateUser)
+			.map(key => `${key} = ?`)
+			.join(', ')
+		const updateValues = Object.values(updateUser)
+
+		const query = `UPDATE usercompany SET ${updateFields} WHERE id = ${userId}`
+
+		const [result] = await pool.query(query, [...updateValues])
+
+		res.status(200).json({ success: true })
+	} catch (err) {
+		return next(err)
+	}
+})

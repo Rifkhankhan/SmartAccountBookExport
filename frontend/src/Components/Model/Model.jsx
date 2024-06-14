@@ -26,15 +26,13 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 
 	useLayoutEffect(() => {
 		setSelectedOptions([...userCompanies])
-	}, [showEditModal])
-
-	// console.log(selectedUser)
-	console.log(selectedOptions)
+	}, [showEditModal, userCompanies])
 
 	// initialInputsState
 
 	const initialInputsState = {
 		name: { value: selectedUser?.name, isValid: true },
+		company: { value: [], isValid: false },
 
 		expansePermission: {
 			value: selectedUser?.expansePermission,
@@ -101,9 +99,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 	const [inputs, setInputs] = useState(initialInputsState)
 	useEffect(() => {
 		setFormValid(inputs.name.isValid && selectedOptions.length > 0)
-
-		return () => {}
-	}, [inputs])
+	}, [inputs, selectedOptions])
 
 	const inputTextChangeHandler = (inputType, enteredValue) => {
 		setInputs(currentInputValue => {
@@ -168,8 +164,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 			return
 		}
 
-		// console.log(data)
-		dispatch(updateUser(selectedUser.id, data))
+		dispatch(updateUser(selectedUser?.id, data))
 		setFormSubmit(true)
 		setShowEditModal(false)
 		closeHandler()
@@ -181,35 +176,19 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 		setShowEditModal(current => !current)
 	}
 	const resetPasswordHandler = () => {
-		dispatch(resetPassword(selectedUser.id))
+		dispatch(resetPassword(selectedUser?.id))
 		closeHandler()
 	}
 
 	const blockHandler = () => {
-		dispatch(activateToggle(selectedUser.id))
+		dispatch(activateToggle(selectedUser?.id))
 		closeHandler()
 	}
-
-	// Add or remove the company ID based on checkbox status
-	// const handleCheckboxChange = companyId => {
-	// 	if (!selectedOptions.find(option => option.cid === companyId)) {
-	// 		// If the company ID is not present in selectedOptions, add it
-	// 		setSelectedOptions([
-	// 			...selectedOptions,
-	// 			companies.find(comp => comp.cid === companyId)
-	// 		])
-	// 	} else {
-	// 		// If the company ID is already present, remove it
-	// 		setSelectedOptions(
-	// 			selectedOptions.filter(option => option.cid !== companyId)
-	// 		)
-	// 	}
-	// }
 
 	const handleCheckboxChange = companyId => {
 		setSelectedOptions(prevOptions => {
 			if (!prevOptions.find(option => option.cid === companyId)) {
-				return [...prevOptions, companies.find(comp => comp.cid === companyId)]
+				return [...prevOptions, companies?.find(comp => comp.cid === companyId)]
 			} else {
 				return prevOptions.filter(option => option.cid !== companyId)
 			}
@@ -259,7 +238,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									className="col-12 col-md-12 ">
 									Name
 								</label>
-								<p>{selectedUser.name}</p>
+								<p>{selectedUser?.name}</p>
 							</div>
 						</div>
 						<div className="row">
@@ -270,7 +249,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Expense Permission
 								</label>
 								<p>
-									{selectedUser.expansePermission === 'yes'
+									{selectedUser?.expansePermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -280,7 +259,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Receipt Permission
 								</label>
 								<p>
-									{selectedUser.receiptPermission === 'yes'
+									{selectedUser?.receiptPermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -295,7 +274,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Advance Permission
 								</label>
 								<p>
-									{selectedUser.advancePermission === 'yes'
+									{selectedUser?.advancePermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -305,7 +284,9 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Loan Permission
 								</label>
 								<p>
-									{selectedUser.loanPermission === 'yes' ? 'Granted' : 'Denied'}
+									{selectedUser?.loanPermission === 'yes'
+										? 'Granted'
+										: 'Denied'}
 								</p>
 							</div>
 						</div>
@@ -317,7 +298,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Expense Edit Permission
 								</label>
 								<p>
-									{selectedUser.expanseEditPermission === 'yes'
+									{selectedUser?.expanseEditPermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -327,7 +308,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Receipt Edit Permission
 								</label>
 								<p>
-									{selectedUser.receiptEditPermission === 'yes'
+									{selectedUser?.receiptEditPermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -341,7 +322,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Advance Edit Permission
 								</label>
 								<p>
-									{selectedUser.advanceEditPermission === 'yes'
+									{selectedUser?.advanceEditPermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -351,7 +332,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Loan Edit Permission
 								</label>
 								<p>
-									{selectedUser.loanEditPermission === 'yes'
+									{selectedUser?.loanEditPermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -365,7 +346,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Expense Delete Permission
 								</label>
 								<p>
-									{selectedUser.expanseDeletePermission === 'yes'
+									{selectedUser?.expanseDeletePermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -375,7 +356,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Receipt Delete Permission
 								</label>
 								<p>
-									{selectedUser.receiptDeletePermission === 'yes'
+									{selectedUser?.receiptDeletePermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -389,7 +370,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Advance Delete Permission
 								</label>
 								<p>
-									{selectedUser.advanceDeletePermission === 'yes'
+									{selectedUser?.advanceDeletePermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -399,7 +380,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Loan Delete Permission
 								</label>
 								<p>
-									{selectedUser.loanDeletePermission === 'yes'
+									{selectedUser?.loanDeletePermission === 'yes'
 										? 'Granted'
 										: 'Denied'}
 								</p>
@@ -412,13 +393,13 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									className="col-12 col-md-12">
 									Print Permission
 								</label>
-								<p>{selectedUser.pp === 'yes' ? 'Granted' : 'Denied'}</p>
+								<p>{selectedUser?.pp === 'yes' ? 'Granted' : 'Denied'}</p>
 							</div>
 							<div className="col-12 col-md-6">
 								<label style={{ fontWeight: 600, fontSize: '1.5em' }}>
 									Export PDF Permission
 								</label>
-								<p>{selectedUser.epp === 'yes' ? 'Granted' : 'Denied'}</p>
+								<p>{selectedUser?.epp === 'yes' ? 'Granted' : 'Denied'}</p>
 							</div>
 						</div>
 						<div className="row">
@@ -428,7 +409,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									className="col-12 col-md-12">
 									Chart Access Permission
 								</label>
-								<p>{selectedUser.cp === 'yes' ? 'Granted' : 'Denied'}</p>
+								<p>{selectedUser?.cp === 'yes' ? 'Granted' : 'Denied'}</p>
 							</div>
 
 							<div
@@ -438,8 +419,8 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									overflowY: 'auto',
 									overflowX: 'hidden'
 								}}>
-								{selectedUser && userCompanies.length > 0
-									? userCompanies.map(company => (
+								{selectedUser && userCompanies?.length > 0
+									? userCompanies?.map(company => (
 											<div key={company.cid} className="form-check">
 												<input
 													className="form-check-input"
@@ -454,13 +435,13 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 													htmlFor={`company_${company.cid}`}
 													style={{ textAlign: 'left' }}>
 													{
-														companies.find(comp => comp.cid === company.cid)
+														companies?.find(comp => comp.cid === company.cid)
 															.name
 													}
 												</label>
 											</div>
 									  ))
-									: companies.map(company => (
+									: companies?.map(company => (
 											<div key={company.cid} className="form-check">
 												<input
 													className="form-check-input"
@@ -475,7 +456,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 													htmlFor={`company_${company.cid}`}
 													style={{ textAlign: 'left' }}>
 													{
-														companies.find(comp => comp.cid === company.cid)
+														companies?.find(comp => comp.cid === company.cid)
 															.name
 													}
 												</label>
@@ -487,7 +468,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 					<Modal.Footer
 						className="row mx-1"
 						style={{ display: 'flex', justifyContent: 'space-between' }}>
-						{currentUser.isAdmin ? (
+						{currentUser?.isAdmin ? (
 							<Button
 								variant="dark"
 								className="col-12 col-md-2"

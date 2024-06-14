@@ -3,6 +3,7 @@ const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('../Middleware/asyncHandler')
 const generateToken = require('./../Utils/generateToken')
+const { CreateCompany } = require('./CompanyController')
 
 // Return "https" URLs by setting secure: true
 
@@ -306,28 +307,79 @@ exports.getCustomers = asyncHandler(async (req, res) => {
 
 // get all products of a shop
 exports.updateCustomer = asyncHandler(async (req, res, next) => {
+	const userId = req.params.id // Assuming userId is passed in the request URL
+
 	try {
-		const userId = req.params.id // Assuming userId is passed in the request URL
+		const { company, ...rest } = req.body
 
-		const updateUser = {
-			...req.body
-		}
-
-		// Construct the SET part of the SQL query dynamically
-		const updateFields = Object.keys(updateUser)
+		// Prepare update data for users table
+		const updateFields = Object.keys(rest)
 			.map(key => `${key} = ?`)
 			.join(', ')
-		const updateValues = Object.values(updateUser)
+		const updateValues = Object.values(rest)
 
-		const query = `UPDATE users SET ${updateFields} WHERE id = ${userId}`
+		// Update users table
+		const updateUserQuery = `UPDATE users SET ${updateFields} WHERE id = ?`
+		const [updateUserResult] = await pool.query(updateUserQuery, [
+			...updateValues,
+			userId
+		])
 
-		const [result] = await pool.query(query, [...updateValues])
+		if (updateUserResult.affectedRows === 0) {
+			return res.status(404).json({ success: false, message: 'User not found' })
+		}
 
+		// Fetch current user's company associations
+		const [userAccessed] = await pool.query(
+			'SELECT * FROM usercompany WHERE uid = ?',
+			[userId]
+		)
+
+		const userCompanyCids = userAccessed.map(item => item.cid)
+		const newCompanyCids = company.map(item => item.cid)
+
+		// Companies to add
+		const companiesToAdd = company.filter(
+			comp => !userCompanyCids.includes(comp.cid)
+		)
+
+		// Companies to remove
+		const companiesToRemove = userCompanyCids.filter(
+			cid => !newCompanyCids.includes(cid)
+		)
+
+		// Insert new company associations
+		for (const comp of companiesToAdd) {
+			const newUserCompany = {
+				cid: +comp.cid,
+				uid: +userId
+			}
+
+			const newUserCompanyColumns = Object.keys(newUserCompany).join(',')
+			const newUserCompanyPlaceholders = Object.values(newUserCompany)
+				.map(() => '?')
+				.join(',')
+
+			const newUserCompanyQuery = `INSERT INTO usercompany (${newUserCompanyColumns}) VALUES (${newUserCompanyPlaceholders})`
+			await pool.query(newUserCompanyQuery, Object.values(newUserCompany))
+		}
+
+		// Remove old company associations
+		if (companiesToRemove.length > 0) {
+			const removeQuery = `DELETE FROM usercompany WHERE uid = ? AND cid IN (${companiesToRemove.join(
+				','
+			)})`
+			await pool.query(removeQuery, [userId])
+		}
+
+		// If everything succeeds
 		res.status(200).json({ success: true })
 	} catch (err) {
-		return next(err)
+		console.error('Error updating customer:', err)
+		res.status(500).json({ success: false, message: 'Internal server error' })
 	}
 })
+
 // get all products of a shop
 exports.logoutUserAccount = asyncHandler(async (req, res, next) => {
 	try {
