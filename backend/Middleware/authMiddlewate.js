@@ -7,7 +7,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 	//  read the jwt from cookie
 
-	token = req.cookies.jwt
+	token = req.cookies.SABExport
 
 	if (token) {
 		try {

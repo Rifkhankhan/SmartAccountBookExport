@@ -4,19 +4,6 @@ import { CompanyActions } from '../store/CompanySlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import Cookies from 'js-cookie'
-
-const cookieName = 'SABExport'
-
-const checkCookie = () => {
-	const cookieValue = Cookies.get(cookieName)
-	if (!cookieValue) {
-		console.log('Cookie not found')
-		return false
-	}
-	console.log(`Cookie found: ${cookieValue}`)
-	return true
-}
 export const createCompany = formData => async dispatch => {
 	// if (!checkCookie()) return
 

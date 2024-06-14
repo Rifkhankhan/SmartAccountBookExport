@@ -4,24 +4,6 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as AuthApi from '../Apis/AuthRequest'
 
-import Cookies from 'js-cookie'
-
-const checkCookie = () => {
-	const cookieName = 'jwt'
-	try {
-		const cookieValue = Cookies.get(cookieName)
-		if (!cookieValue) {
-			console.log('Cookie not found')
-			return false
-		}
-		console.log(`Cookie found: ${cookieValue}`)
-		return true
-	} catch (error) {
-		console.error('Error retrieving cookie:', error)
-		return false
-	}
-}
-
 export const logIn = formData => async dispatch => {
 	dispatch(authActions.handleLoading())
 	try {
