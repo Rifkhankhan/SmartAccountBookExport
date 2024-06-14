@@ -6,8 +6,23 @@ import { authActions } from '../store/AuthSlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { userActions } from '../store/UserSlice'
+import Cookies from 'js-cookie'
+
+const cookieName = 'SABExport'
+
+const checkCookie = () => {
+	const cookieValue = Cookies.get(cookieName)
+	if (!cookieValue) {
+		console.log('Cookie not found')
+		return false
+	}
+	console.log(`Cookie found: ${cookieValue}`)
+	return true
+}
 
 export const activateToggle = id => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 
 	try {
@@ -49,6 +64,8 @@ export const activateToggle = id => async dispatch => {
 	dispatch(authActions.handleLoading())
 }
 export const createUser = formData => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 	try {
 		// dispatch(uiActions.changeAsLoading())
@@ -91,6 +108,8 @@ export const createUser = formData => async dispatch => {
 }
 
 export const getUsers = () => async (dispatch, getState) => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 
 	try {
@@ -131,6 +150,8 @@ export const getUsers = () => async (dispatch, getState) => {
 }
 
 export const getUserActivities = () => async (dispatch, getState) => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 
 	try {
@@ -170,6 +191,8 @@ export const getUserActivities = () => async (dispatch, getState) => {
 	}
 }
 export const getUser = id => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 	try {
 		const { data } = await UserApi.getCustomer(id)
@@ -199,6 +222,8 @@ export const getUser = id => async dispatch => {
 	dispatch(authActions.handleLoading())
 }
 export const updateUser = (id, formData) => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 
 	try {
@@ -238,6 +263,8 @@ export const updateUser = (id, formData) => async dispatch => {
 }
 
 export const resetPassword = id => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 	try {
 		const { data } = await UserApi.resetPassword(id)
@@ -275,6 +302,8 @@ export const resetPassword = id => async dispatch => {
 }
 
 export const updatePassword = (id, formData) => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(authActions.handleLoading())
 	try {
 		const { data } = await UserApi.updatePassword(id, formData)

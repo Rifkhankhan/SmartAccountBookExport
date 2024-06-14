@@ -196,7 +196,7 @@ const ExpanseForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 								class="form-control"
 								id="narration"
 								placeholder="Narration"
-								value={inputs.narration.value}
+								value={inputs?.narration.value}
 								rows={4}
 								onChange={e =>
 									inputTextChangeHandler('narration', e.target.value)
@@ -209,7 +209,7 @@ const ExpanseForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 							<select
 								class="form-control mb-2"
 								id="methode"
-								value={inputs.methode.value}
+								value={inputs?.methode.value}
 								onChange={e =>
 									inputTextChangeHandler('methode', e.target.value)
 								}>
@@ -227,7 +227,7 @@ const ExpanseForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 							<select
 								class="form-control mb-2"
 								id="company"
-								value={inputs.company.value}
+								value={inputs?.company?.value}
 								onChange={e =>
 									inputTextChangeHandler('company', e.target.value)
 								}>
@@ -235,12 +235,12 @@ const ExpanseForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 									Select Company
 								</option>
 
-								{userCompanies.map(company => (
+								{userCompanies?.map(company => (
 									<option
-										key={company.cid}
-										value={company.cid}
+										key={company?.cid}
+										value={company?.cid}
 										className="text-dark">
-										{companies.find(comp => comp.cid === company.cid).name}
+										{companies?.find(comp => comp?.cid === company?.cid)?.name}
 									</option>
 								))}
 							</select>

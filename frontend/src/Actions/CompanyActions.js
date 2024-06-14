@@ -3,7 +3,23 @@ import * as CompanyApis from '../Apis/CompanyApis'
 import { CompanyActions } from '../store/CompanySlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
+import Cookies from 'js-cookie'
+
+const cookieName = 'SABExport'
+
+const checkCookie = () => {
+	const cookieValue = Cookies.get(cookieName)
+	if (!cookieValue) {
+		console.log('Cookie not found')
+		return false
+	}
+	console.log(`Cookie found: ${cookieValue}`)
+	return true
+}
 export const createCompany = formData => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(CompanyActions.handleLoading())
 	try {
 		const { data } = await CompanyApis.createCompany(formData)
@@ -41,6 +57,8 @@ export const createCompany = formData => async dispatch => {
 }
 
 export const getcompanies = () => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(CompanyActions.handleLoading())
 	try {
 		const { data } = await CompanyApis.getcompanies()
@@ -75,6 +93,8 @@ export const getcompanies = () => async dispatch => {
 }
 
 export const getUserComponies = id => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(CompanyActions.handleLoading())
 	try {
 		const { data } = await CompanyApis.getUserComponies(id)

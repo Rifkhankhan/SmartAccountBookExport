@@ -380,7 +380,7 @@ const CreateUser = ({ header, companies }) => {
 						overflowY: 'auto',
 						overflowX: 'hidden'
 					}}>
-					{companies.map(company => (
+					{companies?.map(company => (
 						<div key={company.cid} className="form-check">
 							<input
 								className="form-check-input"
@@ -415,7 +415,7 @@ const CreateUser = ({ header, companies }) => {
 									float: 'left'
 								}}
 								htmlFor={`company_${company.cid}`}>
-								{company.name}
+								{company?.name}
 							</label>
 						</div>
 					))}

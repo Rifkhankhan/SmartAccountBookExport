@@ -4,7 +4,23 @@ import { RequestActions } from '../store/DataActivitySlice'
 import { AccountRequestActions } from '../store/AccountRequestSlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
+import Cookies from 'js-cookie'
+
+const cookieName = 'SABExport'
+
+const checkCookie = () => {
+	const cookieValue = Cookies.get(cookieName)
+	if (!cookieValue) {
+		console.log('Cookie not found')
+		return false
+	}
+	console.log(`Cookie found: ${cookieValue}`)
+	return true
+}
 export const getRequests = () => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(RequestActions.handleLoading())
 	try {
 		const { data } = await RequestApis.getRequests()
@@ -39,6 +55,8 @@ export const getRequests = () => async dispatch => {
 }
 
 export const resetData = formData => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(RequestActions.handleLoading())
 	try {
 		const { data } = await RequestApis.resetData(formData)

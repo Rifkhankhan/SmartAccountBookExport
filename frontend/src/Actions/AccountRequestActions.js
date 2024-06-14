@@ -3,8 +3,23 @@ import * as AccountRequestApis from '../Apis/AccountRequestApis'
 import { AccountRequestActions } from '../store/AccountRequestSlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Cookies from 'js-cookie'
+
+const cookieName = 'SABExport'
+
+const checkCookie = () => {
+	const cookieValue = Cookies.get(cookieName)
+	if (!cookieValue) {
+		console.log('Cookie not found')
+		return false
+	}
+	console.log(`Cookie found: ${cookieValue}`)
+	return true
+}
 
 export const createAccountRequest = formData => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(AccountRequestActions.handleLoading())
 	try {
 		const { data } = await AccountRequestApis.createAccountRequest(formData)
@@ -43,6 +58,8 @@ export const createAccountRequest = formData => async dispatch => {
 }
 
 export const getAccountRequests = () => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(AccountRequestActions.handleLoading())
 	try {
 		const { data } = await AccountRequestApis.getAccountRequests()
@@ -77,6 +94,8 @@ export const getAccountRequests = () => async dispatch => {
 }
 
 export const updateAccountRequest = (formData, datas) => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(AccountRequestActions.handleLoading())
 
 	try {
@@ -117,6 +136,8 @@ export const updateAccountRequest = (formData, datas) => async dispatch => {
 }
 
 export const deleteAccountRequest = formData => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(AccountRequestActions.handleLoading())
 	try {
 		const { data } = await AccountRequestApis.disableAccountRequest(formData)
@@ -156,6 +177,8 @@ export const deleteAccountRequest = formData => async dispatch => {
 }
 
 export const importAccountRequest = formData => async dispatch => {
+	// if (!checkCookie()) return
+
 	dispatch(AccountRequestActions.handleLoading())
 	try {
 		const { data } = await AccountRequestApis.importAccountRequest(formData)

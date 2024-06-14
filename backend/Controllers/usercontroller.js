@@ -6,7 +6,6 @@ const generateToken = require('./../Utils/generateToken')
 
 // Return "https" URLs by setting secure: true
 
-const UserModel = require('../Models/User')
 const pool = require('../MysqlConnection')
 
 // user sign in controller
@@ -108,7 +107,8 @@ exports.logout = asyncHandler(async (req, res) => {
 		// update loggin status
 
 		const updateUser = {
-			isLoggedIn: 0
+			isLoggedIn: 0,
+			authToken: null
 		}
 
 		// Construct the SET part of the SQL query dynamically
@@ -153,7 +153,7 @@ exports.logout = asyncHandler(async (req, res) => {
 			httpOnly: true,
 			expires: new Date(0)
 		})
-		console.log(resultt)
+
 		res.status(200).json({ success: true })
 
 		//...................................................finished

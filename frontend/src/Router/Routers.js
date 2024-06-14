@@ -71,8 +71,10 @@ const Routers = () => {
 					element={
 						isAuthenticated && currentUser.isAdmin ? (
 							<Users />
+						) : isAuthenticated ? (
+							<Users />
 						) : (
-							<Login to="/login" />
+							<Home />
 						)
 					}
 				/>

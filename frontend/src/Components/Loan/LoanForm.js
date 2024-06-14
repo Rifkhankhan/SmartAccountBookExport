@@ -263,12 +263,12 @@ const LoanForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 									Select Company
 								</option>
 
-								{userCompanies.map(company => (
+								{userCompanies?.map(company => (
 									<option
-										key={company.cid}
-										value={company.cid}
+										key={company?.cid}
+										value={company?.cid}
 										className="text-dark">
-										{companies.find(comp => comp.cid === company.cid).name}
+										{companies?.find(comp => comp.cid === company?.cid)?.name}
 									</option>
 								))}
 							</select>
