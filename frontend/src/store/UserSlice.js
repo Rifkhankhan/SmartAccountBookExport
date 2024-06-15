@@ -8,8 +8,8 @@ export const userSlice = createSlice({
 	},
 	reducers: {
 		createUser: (state, action) => {
-			console.log(action.payload)
-			state.users.push(action.payload)
+			const { company, ...rest } = action.payload
+			state.users.push(rest)
 		},
 		getUsers: (state, action) => {
 			state.users = [...action.payload]

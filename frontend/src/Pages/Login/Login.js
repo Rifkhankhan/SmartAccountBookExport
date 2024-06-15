@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { logIn } from '../../Actions/AuthAction'
 import LoadingSpinner from './../../Components/LoadingSpinner/LoadingSpinner'
-const Login = props => {
+const Login = () => {
 	const [formSubmit, setFormSubmit] = useState(false)
 	const dispatch = useDispatch()
 	const [formValid, setFormValid] = useState(true)

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, Spinner } from 'react-bootstrap'
 import styles from './Model.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose, faPager, faPen } from '@fortawesome/free-solid-svg-icons'
@@ -8,21 +8,24 @@ import { resetPassword, updateUser } from '../../Actions/userAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { activateToggle } from '../../Actions/userAction'
 import { getUserComponies } from '../../Actions/CompanyActions'
+import Loading from '../Loading'
 const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
-	const users = useSelector(state => state.user.users)
 	const currentUser = useSelector(state => state.auth.user)
 	const [showEditModal, setShowEditModal] = useState(false)
 	const [formSubmit, setFormSubmit] = useState(false) // for response
 	const [formValid, setFormValid] = useState(true)
 	const userCompanies = useSelector(state => state.company.userCompanies)
 	const [selectedOptions, setSelectedOptions] = useState([...userCompanies])
+
+	console.log(selectedUser.id)
+	console.log(userCompanies)
 	const dispatch = useDispatch()
 
-	useEffect(() => {}, [users])
-
 	useLayoutEffect(() => {
-		dispatch(getUserComponies(selectedUser.id))
-	}, [selectedUser.id, dispatch])
+		if (selectedUser) {
+			dispatch(getUserComponies(selectedUser?.id))
+		}
+	}, [selectedUser, dispatch])
 
 	useLayoutEffect(() => {
 		setSelectedOptions([...userCompanies])
@@ -412,57 +415,61 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 								<p>{selectedUser?.cp === 'yes' ? 'Granted' : 'Denied'}</p>
 							</div>
 
-							<div
-								className="form-group col-12 col-md-6 mb-2"
-								style={{
-									maxHeight: '100px',
-									overflowY: 'auto',
-									overflowX: 'hidden'
-								}}>
-								{selectedUser && userCompanies?.length > 0
-									? userCompanies?.map(company => (
-											<div key={company.cid} className="form-check">
-												<input
-													className="form-check-input"
-													type="checkbox"
-													id={`company_${company.cid}`}
-													value={company.cid}
-													checked
-													style={{ display: 'block', marginRight: '5px' }}
-												/>
-												<label
-													className="form-check-label text-dark text-left"
-													htmlFor={`company_${company.cid}`}
-													style={{ textAlign: 'left' }}>
-													{
-														companies?.find(comp => comp.cid === company.cid)
-															.name
-													}
-												</label>
-											</div>
-									  ))
-									: companies?.map(company => (
-											<div key={company.cid} className="form-check">
-												<input
-													className="form-check-input"
-													type="checkbox"
-													id={`company_${company.cid}`}
-													value={company.cid}
-													checked={false}
-													style={{ display: 'block', marginRight: '5px' }}
-												/>
-												<label
-													className="form-check-label text-dark text-left"
-													htmlFor={`company_${company.cid}`}
-													style={{ textAlign: 'left' }}>
-													{
-														companies?.find(comp => comp.cid === company.cid)
-															.name
-													}
-												</label>
-											</div>
-									  ))}
-							</div>
+							{companies && userCompanies && selectedUser ? (
+								<div
+									className="form-group col-12 col-md-6 mb-2"
+									style={{
+										maxHeight: '100px',
+										overflowY: 'auto',
+										overflowX: 'hidden'
+									}}>
+									{selectedUser && userCompanies?.length > 0
+										? userCompanies?.map(company => (
+												<div key={company.cid} className="form-check">
+													<input
+														className="form-check-input"
+														type="checkbox"
+														id={`company_${company.cid}`}
+														value={company.cid}
+														checked
+														style={{ display: 'block', marginRight: '5px' }}
+													/>
+													<label
+														className="form-check-label text-dark text-left"
+														htmlFor={`company_${company.cid}`}
+														style={{ textAlign: 'left' }}>
+														{
+															companies?.find(comp => comp.cid === company.cid)
+																.name
+														}
+													</label>
+												</div>
+										  ))
+										: companies?.map(company => (
+												<div key={company.cid} className="form-check">
+													<input
+														className="form-check-input"
+														type="checkbox"
+														id={`company_${company.cid}`}
+														value={company.cid}
+														checked={false}
+														style={{ display: 'block', marginRight: '5px' }}
+													/>
+													<label
+														className="form-check-label text-dark text-left"
+														htmlFor={`company_${company.cid}`}
+														style={{ textAlign: 'left' }}>
+														{
+															companies?.find(comp => comp.cid === company.cid)
+																.name
+														}
+													</label>
+												</div>
+										  ))}
+								</div>
+							) : (
+								<Loading />
+							)}
 						</div>
 					</Modal.Body>
 					<Modal.Footer

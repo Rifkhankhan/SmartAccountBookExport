@@ -13,7 +13,6 @@ import swal from 'sweetalert'
 import { logoutUserAccount } from '../../Actions/AuthAction'
 import { getRequests, resetData } from '../../Actions/RequestActions'
 import DeleteDataTable from '../../Components/DeleteDataTable/DeleteDataTable'
-import { getAccountRequests } from '../../Actions/AccountRequestActions'
 import CreateCompany from '../../Components/CreateCompany/CreateCompany'
 import CompanyTable from '../../Components/CompanyTable/CompanyTable'
 import { getcompanies } from '../../Actions/CompanyActions'
@@ -27,7 +26,6 @@ const Users = () => {
 	const users = useSelector(state => state.user.users)
 	const requests = useSelector(state => state.request.requests)
 	const companies = useSelector(state => state.company.companies)
-	const currentUser = useSelector(state => state.auth.user)
 
 	useEffect(() => {
 		dispatch(getRequests())
@@ -48,11 +46,13 @@ const Users = () => {
 	const handlePasswordModel = () => {
 		setPasswordModel(current => !current)
 	}
+
 	const handleModel = () => {
 		setShowModal(current => !current)
 	}
 
 	const getIdHandler = id => {
+		console.log(id)
 		setSelectedUser({ ...users.find(data => data.id === id) })
 	}
 

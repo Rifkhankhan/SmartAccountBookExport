@@ -150,7 +150,7 @@ exports.logout = asyncHandler(async (req, res) => {
 			useractivities.logintime,
 			useractivities.id
 		])
-		res.cookie('jwt', '', {
+		res.cookie('SABExport', '', {
 			httpOnly: true,
 			expires: new Date(0)
 		})
@@ -220,6 +220,8 @@ exports.createCustomer = asyncHandler(async (req, res, next) => {
 			[req.body.name]
 		)
 
+		console.log(req.body)
+
 		if (user.length !== 0) {
 			return res.status(409).json({ message: 'User already exists now' })
 		}
@@ -276,7 +278,10 @@ exports.createCustomer = asyncHandler(async (req, res, next) => {
 			loanDeletePermission:
 				req.body.loanDeletePermission === undefined
 					? 'no'
-					: req.body.loanDeletePermission
+					: req.body.loanDeletePermission,
+			pp: req.body.pp === undefined ? 'no' : req.body.pp,
+			epp: req.body.epp === undefined ? 'no' : req.body.epp,
+			cp: req.body.cp === undefined ? 'no' : req.body.cp
 		}
 
 		const columns = Object.keys(newUser).join(',')
@@ -285,8 +290,25 @@ exports.createCustomer = asyncHandler(async (req, res, next) => {
 			.join(',')
 
 		const query = `INSERT INTO users (${columns}) VALUES (${placeholders})`
-
 		const [result] = await pool.query(query, Object.values(newUser))
+
+		// insert companies
+		// Insert new company associations
+		for (const comp of req.body.company) {
+			const newUserCompany = {
+				cid: +comp,
+				uid: +result.insertId
+			}
+
+			const newUserCompanyColumns = Object.keys(newUserCompany).join(',')
+			const newUserCompanyPlaceholders = Object.values(newUserCompany)
+				.map(() => '?')
+				.join(',')
+
+			const newUserCompanyQuery = `INSERT INTO usercompany (${newUserCompanyColumns},createdAt) VALUES (${newUserCompanyPlaceholders},NOW())`
+			await pool.query(newUserCompanyQuery, Object.values(newUserCompany))
+		}
+
 		res.json({ success: true })
 	} catch (err) {
 		return next(err)
