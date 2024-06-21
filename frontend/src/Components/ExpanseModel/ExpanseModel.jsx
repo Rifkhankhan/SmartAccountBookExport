@@ -227,7 +227,7 @@ const ExpanseModel = ({
 					inputs.methode.value === 'transfer'
 						? 'Bank Transfer'
 						: inputs.methode.value === 'deposite'
-						? 'Bank Deposite'
+						? 'Bank Deposit'
 						: inputs.methode.value,
 				col6: inputs.narration.value
 			}
@@ -288,7 +288,7 @@ const ExpanseModel = ({
 					inputs.methode.value === 'transfer'
 						? 'Bank Transfer'
 						: inputs.methode.value === 'deposite'
-						? 'Bank Deposite'
+						? 'Bank Deposit'
 						: inputs.methode.value,
 				col6: inputs.narration.value
 			}
@@ -414,7 +414,7 @@ const ExpanseModel = ({
 									{inputs.methode.value === 'transfer'
 										? 'Bank Transfer'
 										: inputs.methode.value === 'deposite'
-										? 'Bank Deposite'
+										? 'Bank Deposit'
 										: inputs.methode.value}
 								</p>
 							</div>
@@ -445,9 +445,14 @@ const ExpanseModel = ({
 										Image
 									</label>
 									<img
-										src={`http://localhost:5000/uploads/${clickedRow?.filename}`}
+										src={
+											process.env.NODE_ENV === 'development'
+												? `http://localhost:5000/uploads/${clickedRow?.filename}`
+												: `${window.location.origin}/uploads/${clickedRow?.filename}`
+
+										}
 										alt="Uploaded"
-										style={{ width: '100%', height: '50vh' }}
+										style={{ width: '100%', maxHeight: '50vh' }}
 									/>
 								</div>
 							)}
@@ -572,7 +577,7 @@ const ExpanseModel = ({
 										<option value="cash">Cash</option>
 										<option value="cheque">Cheque</option>
 										<option value="transfer">Bank Transfer</option>
-										<option value="deposite">Bank Deposite</option>
+										<option value="deposite">Bank Deposit</option>
 									</select>
 								</div>
 							</div>
@@ -615,7 +620,12 @@ const ExpanseModel = ({
 								clickedRow?.filename !== null &&
 								clickedRow?.filename !== 'null' && (
 									<img
-										src={`http://localhost:5000/uploads/${clickedRow?.filename}`}
+										src={
+											process.env.NODE_ENV === 'development'
+												? `http://localhost:5000/uploads/${clickedRow?.filename}`
+												: `${window.location.origin}/uploads/${clickedRow?.filename}`
+
+										}
 										alt="Uploaded"
 										style={{ width: '100%', maxHeight: '50vh' }}
 									/>

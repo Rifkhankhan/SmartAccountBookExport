@@ -13,8 +13,7 @@ exports.importRequests = async (req, res, next) => {
 		for (const product of products) {
 			const newProduct = {
 				date: product.date,
-				amount: product.amount,
-				id: id,
+				amount: product.amount,id: id,
 				cid: product.company,
 				methode: product.method,
 				narration: product.narration,
@@ -27,7 +26,11 @@ exports.importRequests = async (req, res, next) => {
 				.map(() => '?')
 				.join(',')
 
-			const query = `INSERT INTO accountrequest (${columns}, createAt) VALUES (${placeholders}, NOW())`
+			const query = `INSERT INTO
+			accountrequest (${columns}, createAt)
+
+
+			VALUES (${placeholders}, NOW())`
 
 			const [result] = await pool.query(query, Object.values(newProduct))
 
