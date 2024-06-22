@@ -1,0 +1,12 @@
+.custom_scroll {
+	overflow-x: auto;
+}
+
+.custom_scroll::-webkit-scrollbar {
+	display: none; /* Hide scrollbar for webkit browsers */
+}
+
+.custom_scroll {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}

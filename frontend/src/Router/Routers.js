@@ -14,6 +14,7 @@ import LoadingSpinner from '../Components/LoadingSpinner/LoadingSpinner'
 import { autoLogin, logout } from '../Actions/AuthAction'
 import { getUserComponies } from '../Actions/CompanyActions'
 import Priceing from '../Pages/Pricing/Priceing'
+import Dashboard from '../HR/Screens/Dashboard'
 
 const Routers = () => {
 	const dispatch = useDispatch()
@@ -118,10 +119,23 @@ const Routers = () => {
 					element={
 						isAuthenticated && currentUser.isAdmin ? (
 							<Users />
-						) : isAuthenticated ? (
-							<Users />
-						) : (
+						) : isAuthenticated && !currentUser.isAdmin  ? (
 							<Home />
+						) : (
+							<Login to="/login" />
+						)
+					}
+				/>
+
+				<Route
+					path="/hr"
+					element={
+						isAuthenticated && currentUser.isAdmin ? (
+							<Dashboard />
+						) : isAuthenticated && !currentUser.isAdmin  ? (
+							<Home />
+						) : (
+							<Login to="/login" />
 						)
 					}
 				/>

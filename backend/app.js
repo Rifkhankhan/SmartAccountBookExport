@@ -42,10 +42,6 @@ app.use('/user', userrouter)
 app.use('/accountRequest', AccountRequestRouter)
 app.use('/requests', RequestRouter)
 app.use('/company', CompanyRouter)
-// Express Server
-const server = app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}`)
-})
 
 // Error Handling Middleware
 app.use((error, req, res, next) => {
@@ -56,11 +52,9 @@ app.use((error, req, res, next) => {
 	}
 })
 
-// Serve images from the 'uploads' directory for render
+// Serve images from the 'uploads' directory for render and cpanel
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')))
 
-// Serve images from the 'uploads' directory for cpanel
-// app.use('/uploads', express.static(path.join(__dirname, '..',"..", 'uploads')))
 
 // Deployment settings for render
 if (process.env.NODE_ENV === 'production') {
@@ -97,3 +91,9 @@ if (process.env.NODE_ENV === 'production') {
 // Error handling middleware
 app.use(notFound)
 app.use(errorHandler)
+
+
+// Express Server
+const server = app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`)
+})

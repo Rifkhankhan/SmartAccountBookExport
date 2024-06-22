@@ -121,6 +121,14 @@ function Header({ showPrice }) {
 					</li>
 				)}
 
+				{/* {isAuthenticated && currentUser.isAdmin === 1 && (
+					<li className={styles.hideOnMobile}>
+						<Link to="/hr" id="projects">
+							HR
+						</Link>
+					</li>
+				)} */}
+
 				{isAuthenticated && (
 					<li className={styles.hideOnMobile}>
 						<Link to="/login" onClick={logOutHandler}>
@@ -138,7 +146,24 @@ function Header({ showPrice }) {
 					</li>
 				)}
 
-				{!isAuthenticated && showPrice && (
+				{isAuthenticated && (
+					<li className={styles.showOnMobile} onClick={toggleSidebar}>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							height="26"
+							color="white"
+							viewBox="0 -960 960 960"
+							style={{ marginBlock: 'auto' }}
+							width="26">
+							<path
+								fill="white"
+								d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+							/>
+						</svg>
+					</li>
+				)}
+
+				{/* {!isAuthenticated && showPrice && (
 					<li className={styles.hideOnMobile}>
 						<Link to="/login">
 							<svg
@@ -153,15 +178,15 @@ function Header({ showPrice }) {
 							</svg>
 						</Link>
 					</li>
-				)}
+				)} */}
 
-				{!isAuthenticated && !showPrice && (
+				{/* {!isAuthenticated && !showPrice && (
 					<li className={styles.hideOnMobile}>
 						<Link to="/pricing">
 							<h4>$</h4>
 						</Link>
 					</li>
-				)}
+				)} */}
 			</ul>
 
 			<ul
