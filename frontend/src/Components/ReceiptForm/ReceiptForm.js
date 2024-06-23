@@ -249,7 +249,7 @@ const ReceiptForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 									<option value="cash">Cash</option>
 									<option value="cheque">Cheque</option>
 									<option value="transfer">Bank Transfer</option>
-									<option value="deposite">Bank Deposite</option>
+									<option value="deposite">Bank Deposit</option>
 								</select>
 							</div>
 						)}
