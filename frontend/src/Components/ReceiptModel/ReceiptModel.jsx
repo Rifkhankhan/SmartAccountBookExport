@@ -468,9 +468,8 @@ const ReceiptModel = ({
 									<img
 										src={
 											process.env.NODE_ENV === 'development'
-												? `http://localhost:5000/uploads/${clickedRow?.filename}`
+												? `http://localhost:8000/uploads/${clickedRow?.filename}`
 												: `${window.location.origin}/uploads/${clickedRow?.filename}`
-
 										}
 										alt="Uploaded"
 										style={{ width: '100%', maxHeight: '50vh' }}
@@ -665,9 +664,8 @@ const ReceiptModel = ({
 									<img
 										src={
 											process.env.NODE_ENV === 'development'
-												? `http://localhost:5000/uploads/${clickedRow?.filename}`
+												? `http://localhost:8000/uploads/${clickedRow?.filename}`
 												: `${window.location.origin}/uploads/${clickedRow?.filename}`
-
 										}
 										alt="Uploaded"
 										style={{ width: '100%', maxHeight: '50vh' }}

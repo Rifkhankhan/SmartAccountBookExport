@@ -10,8 +10,8 @@ const { protect, admin } = require('../Middleware/authMiddlewate')
 router.post('/', protect, admin, CreateCompany)
 
 // gets
-router.get('/', protect, admin, getcompanies)
+router.get('/', protect, getcompanies)
 // router.put('/:id', protect, admin, updateUserCompanies)
-router.get('/:id', protect, admin, getUserComponies)
+router.get('/:id', protect, getUserComponies)
 
 module.exports = router

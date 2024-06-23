@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken')
 
 const generateToken = (res, id) => {
-	console.log(id)
 	try {
 		const token = jwt.sign({ id: id }, process.env.SECRET_KEY, {
 			expiresIn: '30d'
 		})
-		console.log(token)
 
 		// Set JWT as HTTP-only cookie
 		res.cookie('SABExport', token, {

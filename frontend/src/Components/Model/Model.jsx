@@ -17,8 +17,7 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 	const userCompanies = useSelector(state => state.company.userCompanies)
 	const [selectedOptions, setSelectedOptions] = useState([...userCompanies])
 
-	console.log(selectedUser.id)
-	console.log(userCompanies)
+	console.log(selectedUser)
 	const dispatch = useDispatch()
 
 	useLayoutEffect(() => {
@@ -96,6 +95,10 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 		loanDeletePermission: {
 			value: selectedUser?.loanDeletePermission,
 			isValid: true
+		},
+		excelPermission: {
+			value: selectedUser?.excelPermission,
+			isValid: true
 		}
 	}
 
@@ -149,7 +152,11 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 			loanEditPermission:
 				inputs.loanEditPermission.value === null
 					? 'no'
-					: inputs.loanEditPermission.value
+					: inputs.loanEditPermission.value,
+			excelPermission:
+				inputs.excelPermission.value === null
+					? 'no'
+					: inputs.excelPermission.value
 		}
 
 		const nameValid = data.name?.trim().length > 0
@@ -216,24 +223,6 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 						/>
 					</Modal.Header>
 					<Modal.Body>
-						<div
-							className="row"
-							style={{ marginTop: '1vh', marginBlock: '2vh' }}>
-							<div className="col-12 col-md-6">
-								<img
-									src={man}
-									alt=""
-									className="col-12 col-md-6"
-									style={{
-										background: 'rgba(83, 60, 97, 0.516)',
-										boxShadow: ' 0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-										backDropFilter: 'blur( 2.5px )',
-										// -webkit-backdrop-filter:' blur( 2.5px )',
-										borderRadius: '10px'
-									}}
-								/>
-							</div>
-						</div>
 						<div className="row">
 							<div className="col-12 col-md-6">
 								<label
@@ -242,6 +231,18 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									Name
 								</label>
 								<p>{selectedUser?.name}</p>
+							</div>
+							<div className="col-12 col-md-6">
+								<label
+									style={{ fontWeight: 600, fontSize: '1.5em' }}
+									className="col-12 col-md-12">
+									Excel Permission
+								</label>
+								<p>
+									{selectedUser?.excelPermission === 'yes'
+										? 'Granted'
+										: 'Denied'}
+								</p>
 							</div>
 						</div>
 						<div className="row">
@@ -538,24 +539,6 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 							marginBlock: '0px',
 							paddingBlock: '0px'
 						}}>
-						<div
-							className="row"
-							style={{ marginTop: '1vh', marginBlock: '2vh' }}>
-							<div className="col-12 col-md-6">
-								<img
-									src={man}
-									alt="Click to Change"
-									className="col-12 col-md-6"
-									style={{
-										background: 'rgba(83, 60, 97, 0.516)',
-										boxShadow: ' 0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-										backDropFilter: 'blur( 2.5px )',
-										WebkitBackdropFilter: 'blur( 2.5px )',
-										borderRadius: '10px'
-									}}
-								/>
-							</div>
-						</div>
 						<div className="row">
 							<div className="col-12 col-md-6" style={{ marginBlock: '1vh' }}>
 								<label
@@ -571,22 +554,34 @@ const Model = ({ showModal, closeHandler, selectedUser, companies }) => {
 									style={{ border: '2px solid blue' }}
 								/>
 							</div>
-							{/* <div className="col-12 col-md-6" style={{ marginBlock: '1vh' }}>
+
+							<div className="col-12 col-md-6" style={{ marginBlock: '1vh' }}>
 								<label
 									style={{ fontWeight: 600, fontSize: '1.3em' }}
-									className="col-12 col-md-6 ">
-									Password
+									className="col-12 col-md-6">
+									Excel Permission
 								</label>
-								<input
-									placeholder="Example@gmail.com"
-									value={inputs.name.value}
-									onChange={e =>
-										inputTextChangeHandler('name', e.target.value)
-									}
-									className="form-control col-12 col-md-6"
+								<select
+									class="form-control"
 									style={{ border: '2px solid blue' }}
-								/>
-							</div> */}
+									value={inputs.excelPermission?.value}
+									onChange={e =>
+										inputTextChangeHandler('excelPermission', e.target.value)
+									}
+									id="inputGroupSelect01">
+									<option
+										value="yes"
+										selected={inputs.excelPermission?.value === 'yes'}>
+										Yes
+									</option>
+
+									<option
+										value="no"
+										selected={inputs.excelPermission?.value === 'no'}>
+										No
+									</option>
+								</select>
+							</div>
 						</div>
 
 						<div className="row">

@@ -55,7 +55,6 @@ app.use((error, req, res, next) => {
 // Serve images from the 'uploads' directory for render and cpanel
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')))
 
-
 // Deployment settings for render
 if (process.env.NODE_ENV === 'production') {
 	// Set static folder
@@ -91,7 +90,6 @@ if (process.env.NODE_ENV === 'production') {
 // Error handling middleware
 app.use(notFound)
 app.use(errorHandler)
-
 
 // Express Server
 const server = app.listen(PORT, () => {

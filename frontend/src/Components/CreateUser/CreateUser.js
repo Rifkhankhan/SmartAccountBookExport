@@ -25,6 +25,7 @@ const CreateUser = ({ header, companies }) => {
 		loanDeletePermission: { value: 'no', isValid: true },
 		pp: { value: 'no', isValid: true },
 		epp: { value: 'no', isValid: true },
+		excelPermission: { value: 'no', isValid: true },
 		cp: { value: 'no', isValid: true }
 	}
 
@@ -44,52 +45,6 @@ const CreateUser = ({ header, companies }) => {
 			}
 		})
 	}
-	// if (notification) {
-	// 	setTimeout(function () {
-	// 		window.location.reload()
-	// 	}, 1000)
-	// }
-	// const submitHandler = () => {
-	// 	const data = {
-	// 		name: inputs.name.value,
-	// 		company: inputs.company.value,
-	// 		expansePermission: inputs.expansePermission.value,
-	// 		expanseEditPermission: inputs.expanseEditPermission.value,
-	// 		expanseDeletePermission: inputs.expanseDeletePermission.value,
-	// 		receiptPermission: inputs.receiptPermission.value,
-	// 		receiptDeletePermission: inputs.receiptDeletePermission.value,
-	// 		receiptEditPermission: inputs.receiptEditPermission.value,
-	// 		advancePermission: inputs.advancePermission.value,
-	// 		advanceDeletePermission: inputs.advanceDeletePermission.value,
-	// 		advanceEditPermission: inputs.advanceEditPermission.value,
-	// 		loanPermission: inputs.loanPermission.value,
-	// 		loanDeletePermission: inputs.loanDeletePermission.value,
-	// 		cp: inputs.cp.value,
-	// 		pp: inputs.pp.value,
-	// 		epp: inputs.epp.value,
-	// 		loanEditPermission: inputs.loanEditPermission.value
-	// 	}
-
-	// 	const nameValid = data.name?.trim().length > 0
-	// 	const companyValid = data.company?.length > 0
-	// 	// const phoneValid =
-	// 	// 	data.phone?.trim().length > 9 && data.phone?.trim().length <= 10
-
-	// 	if (!nameValid || !companyValid) {
-	// 		setInputs(currentInputs => {
-	// 			return {
-	// 				...currentInputs,
-	// 				name: { value: currentInputs.name.value, isValid: nameValid },
-	// 				company: { value: currentInputs.company.value, isValid: companyValid }
-	// 			}
-	// 		})
-	// 		return
-	// 	}
-
-	// 	dispatch(createUser(data))
-	// 	setFormSubmit(true)
-	// 	setInputs(initialInputsState)
-	// }
 
 	const submitHandler = () => {
 		const data = Object.fromEntries(
@@ -142,6 +97,22 @@ const CreateUser = ({ header, companies }) => {
 							value={inputs.name.value}
 							onChange={e => inputTextChangeHandler('name', e.target.value)}
 						/>
+					</div>
+
+					<div class="form-group col-12 col-md-6 mb-2">
+						<select
+							class="form-control"
+							value={inputs.excelPermission.value}
+							onChange={e =>
+								inputTextChangeHandler('excelPermission', e.target.value)
+							}
+							id="inputGroupSelect01">
+							<option selected value="no">
+								Excel Permission denied...
+							</option>
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
+						</select>
 					</div>
 				</div>
 				<div class="form-row row">

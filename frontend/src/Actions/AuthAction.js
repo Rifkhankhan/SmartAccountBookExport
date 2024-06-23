@@ -3,6 +3,7 @@ import { userActions } from '../store/UserSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as AuthApi from '../Apis/AuthRequest'
+import Cookies from 'js-cookie'
 
 export const logIn = formData => async dispatch => {
 	dispatch(authActions.handleLoading())
@@ -58,6 +59,8 @@ export const logout = () => async dispatch => {
 			toast.error(`You don't have an Account: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
+		} else if (error.response?.status === 401) {
+			console.log(error.response.data.message)
 		} else if (error.response?.status === 409) {
 			toast.error(`Oops! You have no access: ${error.response.data.message}`, {
 				autoClose: 2000
@@ -115,8 +118,6 @@ export const logoutUserAccount = id => async dispatch => {
 }
 
 export const autoLogin = () => async dispatch => {
-	// if (!checkCookie()) return
-
 	dispatch(authActions.handleLoading())
 	try {
 		const { data } = await AuthApi.autoLogin()
@@ -142,10 +143,20 @@ export const autoLogin = () => async dispatch => {
 			toast.error(`${error.response?.status}: ${error.response.data.message}`, {
 				autoClose: 2000
 			})
-		} else if (error.response?.status === 500) {
-			toast.error(`Internal Server Error: ${error.response.data.message}`, {
-				autoClose: 2000
-			})
+		} else if (
+			error.response?.status === 500 &&
+			error?.response?.data?.message !== 'Not authorized , no token'
+		) {
+			toast.error(
+				`Internal Server Error ${error.response?.status}: ${error.response.data.message}`,
+				{
+					autoClose: 2000
+				}
+			)
+		} else if (
+			error.response?.status === 500 &&
+			error?.response?.data?.message === 'Not authorized , no token'
+		) {
 		}
 	}
 

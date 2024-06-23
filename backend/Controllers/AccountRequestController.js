@@ -13,7 +13,8 @@ exports.importRequests = async (req, res, next) => {
 		for (const product of products) {
 			const newProduct = {
 				date: product.date,
-				amount: product.amount,id: id,
+				amount: product.amount,
+				id: id,
 				cid: product.company,
 				methode: product.method,
 				narration: product.narration,
@@ -38,7 +39,6 @@ exports.importRequests = async (req, res, next) => {
 				'SELECT * FROM accountrequest WHERE arid = ?',
 				[result.insertId]
 			)
-			console.log(request)
 
 			// res.json({ success: true, requests: request })
 
@@ -47,7 +47,6 @@ exports.importRequests = async (req, res, next) => {
 				id: id,
 				arid: result.insertId
 			}
-			console.log(requestProduct)
 
 			const requestColumns = Object.keys(requestProduct).join(',')
 			const requestPlaceholders = Object.values(requestProduct)
@@ -88,7 +87,7 @@ exports.CreateRequest = asyncHandler(async (req, res, next) => {
 			requestType: req.body.requestType,
 			requestForm: req.body.requestForm,
 			id: req.user.id,
-
+			cid: +req.body.company,
 			methode: req.body.methode,
 			filename: req.file?.filename, // Add the filename obtained from req.file
 			filepath: req.file?.path // Add the filepath obtained from req.file
@@ -234,7 +233,6 @@ exports.ToggleRequest = asyncHandler(async (req, res, next) => {
 exports.updateRequest = asyncHandler(async (req, res, next) => {
 	try {
 		const { arid, file, ...rest } = req.body
-		console.log(rest)
 
 		// createAt
 		const isoDateString = req.body?.createAt
@@ -262,7 +260,7 @@ exports.updateRequest = asyncHandler(async (req, res, next) => {
 
 		const query = `UPDATE accountrequest SET ${updateFields} WHERE arid = ?` // Remove parentheses around SET clause
 		const [result] = await pool.query(query, [...updateValues, arid]) // Include id value separately
-		console.log(result)
+
 		//.....................................................finished account request table insertion
 		const [request] = await pool.query(
 			'select * from accountrequest where arid = ?',

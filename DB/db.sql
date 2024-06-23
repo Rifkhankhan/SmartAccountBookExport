@@ -16,14 +16,15 @@ CREATE TABLE `users` (
   `loanDeletePermission` varchar(45) NOT NULL DEFAULT 'no',
   `status` tinyint NOT NULL DEFAULT '1',
   `isAdmin` tinyint NOT NULL DEFAULT '0',
-  `authToken` varchar(150) DEFAULT NULL,
+  `authToken` varchar(500) DEFAULT NULL,
   `loggedIpAddress` varchar(45) DEFAULT NULL,
   `isLoggedIn` tinyint(1) NOT NULL DEFAULT '0',
   `cp` varchar(45) NOT NULL DEFAULT 'no',
   `pp` varchar(45) DEFAULT 'no',
   `epp` varchar(45) DEFAULT 'no',
+  `excelPermission` varchar(45) DEFAULT 'no',
   PRIMARY KEY (`id`)
-);
+)
 
 CREATE TABLE `company` (
   `cid` int NOT NULL AUTO_INCREMENT,

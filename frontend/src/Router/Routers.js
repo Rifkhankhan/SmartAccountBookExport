@@ -12,9 +12,10 @@ import Header from '../Components/Header/Header'
 
 import LoadingSpinner from '../Components/LoadingSpinner/LoadingSpinner'
 import { autoLogin, logout } from '../Actions/AuthAction'
-import { getUserComponies } from '../Actions/CompanyActions'
+import { getUserComponies, getcompanies } from '../Actions/CompanyActions'
 import Priceing from '../Pages/Pricing/Priceing'
 import Dashboard from '../HR/Screens/Dashboard'
+import { getAccountRequests } from '../Actions/AccountRequestActions'
 
 const Routers = () => {
 	const dispatch = useDispatch()
@@ -37,7 +38,9 @@ const Routers = () => {
 	useEffect(() => {
 		dispatch(autoLogin())
 		if (isAuthenticated) {
+			dispatch(getcompanies())
 			dispatch(getUserComponies(currentUser.id))
+			dispatch(getAccountRequests())
 		}
 	}, [dispatch, currentUser.id, isAuthenticated])
 
@@ -119,7 +122,7 @@ const Routers = () => {
 					element={
 						isAuthenticated && currentUser.isAdmin ? (
 							<Users />
-						) : isAuthenticated && !currentUser.isAdmin  ? (
+						) : isAuthenticated && !currentUser.isAdmin ? (
 							<Home />
 						) : (
 							<Login to="/login" />
@@ -132,7 +135,7 @@ const Routers = () => {
 					element={
 						isAuthenticated && currentUser.isAdmin ? (
 							<Dashboard />
-						) : isAuthenticated && !currentUser.isAdmin  ? (
+						) : isAuthenticated && !currentUser.isAdmin ? (
 							<Home />
 						) : (
 							<Login to="/login" />

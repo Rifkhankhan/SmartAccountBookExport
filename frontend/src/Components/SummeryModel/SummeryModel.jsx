@@ -445,7 +445,7 @@ const SummeryModel = ({
 										Image
 									</label>
 									<img
-										src={`http://localhost:5000/uploads/${clickedRow?.filename}`}
+										src={`http://localhost:8000/uploads/${clickedRow?.filename}`}
 										alt="Uploaded"
 										style={{ width: '100%', height: '50vh' }}
 									/>
@@ -615,7 +615,7 @@ const SummeryModel = ({
 								clickedRow?.filename !== null &&
 								clickedRow?.filename !== 'null' && (
 									<img
-										src={`http://localhost:5000/uploads/${clickedRow?.filename}`}
+										src={`http://localhost:8000/uploads/${clickedRow?.filename}`}
 										alt="Uploaded"
 										style={{ width: '100%', maxHeight: '50vh' }}
 									/>

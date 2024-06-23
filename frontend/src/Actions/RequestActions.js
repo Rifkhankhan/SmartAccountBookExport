@@ -49,7 +49,6 @@ export const resetData = formData => async dispatch => {
 		const { data } = await RequestApis.resetData(formData)
 
 		if (data.success) {
-			console.log(data)
 			dispatch(RequestActions.getRequests(data.requests))
 			dispatch(AccountRequestActions.getAccountRequests(data.accountrequests))
 		}

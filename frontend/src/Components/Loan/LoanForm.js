@@ -27,9 +27,7 @@ const LoanForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 
 	// State for inputs
 	const [inputs, setInputs] = useState(initialInputsState)
-	useEffect(() => {
-		dispatch(getcompanies())
-	}, [dispatch])
+
 	useEffect(() => {
 		setFormValid(
 			inputs.amount.isValid &&
@@ -312,31 +310,33 @@ const LoanForm = ({ userCompanies, setShowDemoTable, showDemoTable }) => {
 									</span>
 								</button>
 							</div>
-							<div class="form-group mt-2">
-								<button
-									type="button"
-									onClick={() => setShowDemoTable(current => !current)}
-									class="btn btn-secondary "
-									style={{ width: '100%' }}>
-									<span
-										style={{
-											marginRight: 'auto',
-											color: 'black',
-											float: 'left'
-										}}>
-										xlsx
-									</span>
-									{!showDemoTable ? 'Upload excel' : 'Cancel Excel upload'}
-									<span
-										style={{
-											marginLeft: 'auto',
-											color: 'black',
-											float: 'right'
-										}}>
-										xls
-									</span>
-								</button>
-							</div>
+							{currentUser?.excelPermission === 'yes' && (
+								<div class="form-group mt-2">
+									<button
+										type="button"
+										onClick={() => setShowDemoTable(current => !current)}
+										class="btn btn-secondary "
+										style={{ width: '100%' }}>
+										<span
+											style={{
+												marginRight: 'auto',
+												color: 'black',
+												float: 'left'
+											}}>
+											xlsx
+										</span>
+										{!showDemoTable ? 'Upload excel' : 'Cancel Excel upload'}
+										<span
+											style={{
+												marginLeft: 'auto',
+												color: 'black',
+												float: 'right'
+											}}>
+											xls
+										</span>
+									</button>
+								</div>
+							)}
 						</div>
 					</div>
 					<div class="form-row row">

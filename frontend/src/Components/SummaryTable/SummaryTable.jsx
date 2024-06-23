@@ -8,7 +8,8 @@ import jsPDF from 'jspdf'
 import image from './../../Images/SCIT_LOGO.png'
 
 import 'jspdf-autotable'
-import { useSelector } from 'react-redux'
+import { converTime, exportPdf, handlePrint } from '../../Utils/Functions'
+
 function SummaryTable({
 	list,
 	handleModel,
@@ -21,6 +22,10 @@ function SummaryTable({
 		setInitialData([...calculateBalance()])
 		setData([...calculateBalance()])
 	}, [list])
+
+	// console.log(list)
+	// console.log(companies)
+	// console.log(userCompanies)
 
 	// Function to calculate balance
 	const calculateBalance = () => {
@@ -84,9 +89,9 @@ function SummaryTable({
 	}
 
 	// Render pagination buttons
+
 	const renderPaginationButtons = () => {
 		const totalPageCount = Math.ceil(data?.length / itemsPerPage)
-
 		const pageNumbers = []
 		for (let i = 1; i <= totalPageCount; i++) {
 			pageNumbers.push(
@@ -99,83 +104,6 @@ function SummaryTable({
 			)
 		}
 		return pageNumbers
-	}
-
-	// export pdf
-	const exportPdf = async () => {
-		const currentDate = new Date()
-		const formattedDate = currentDate.toISOString().slice(0, 10)
-
-		const doc = new jsPDF({ orientation: 'landscape' })
-		const logo = new Image()
-		logo.src = image
-		doc.addImage(logo, 'PNG', 15, 10, 30, 30)
-		doc.setFontSize(16)
-		doc.text('Date: ' + formattedDate, 200, 15)
-		doc.text('Smart Account Book', 50, 15)
-		doc.text('Summary Report', 50, 25)
-		doc.text(
-			`${companies.find(comp => +comp.cid === +selectedCompany)?.name}`,
-			50,
-			35
-		)
-		doc.autoTable({ html: '#table', startY: 50 })
-		const currentTimeWithDate = converTime()
-		const filename = `Summary Report(${currentTimeWithDate}).pdf`
-		doc.save(filename)
-	}
-	const converTime = () => {
-		const currentDate = new Date() // Get the current date and time
-
-		const year = currentDate.getFullYear() // Get the year (YYYY)
-		const month = String(currentDate.getMonth() + 1).padStart(2, '0') // Get the month (MM), adding 1 because month is zero-indexed
-		const day = String(currentDate.getDate()).padStart(2, '0') // Get the day (DD)
-
-		const hours = String(currentDate.getHours()).padStart(2, '0') // Get the hours (HH)
-		const minutes = String(currentDate.getMinutes()).padStart(2, '0') // Get the minutes (MM)
-		const seconds = String(currentDate.getSeconds()).padStart(2, '0') // Get the seconds (SS)
-
-		const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}` // Combine date and time with the T separator
-
-		return formattedDateTime
-	}
-	const handlePrint = () => {
-		const currentDate = new Date()
-		const formattedDate = currentDate.toISOString().slice(0, 10)
-
-		const doc = new jsPDF({ orientation: 'landscape' })
-		const logo = new Image()
-		logo.src = image
-		doc.addImage(logo, 'PNG', 15, 10, 30, 30)
-		doc.setFontSize(16)
-		doc.text('Date: ' + formattedDate, 200, 15)
-		doc.text('Smart Account Book', 50, 15)
-		doc.text('Summary Report', 50, 25)
-		doc.text(
-			`${companies.find(comp => +comp.cid === +selectedCompany)?.name}`,
-			50,
-			35
-		)
-		doc.autoTable({ html: '#table', startY: 50 })
-
-		// Print the PDF content directly
-		doc.autoPrint()
-
-		// Convert the PDF document to a data URL
-		const pdfContentBase64 = doc.output('datauristring')
-
-		// Open a new window and print the PDF content
-		const printWindow = window.open('', '_blank')
-		printWindow.document.write('<html><head><title>Print</title></head><body>')
-		printWindow.document.write(
-			'<embed width="100%" height="100%" src="' +
-				pdfContentBase64 +
-				'" type="application/pdf" />'
-		)
-		printWindow.document.write(
-			'<script>window.onload = function() { window.print(); }</script>'
-		) // Print when fully loaded
-		printWindow.document.write('</body></html>')
 	}
 
 	return (
@@ -229,14 +157,23 @@ function SummaryTable({
 				<div className="col-auto">
 					{currentUser?.epp === 'yes' && (
 						<button
-							onClick={exportPdf}
+							onClick={() =>
+								exportPdf(
+									'Summary Report',
+									companies,
+									selectedCompany,
+									converTime
+								)
+							}
 							className="btn btn-secondary btn-sm m-1">
 							Download
 						</button>
 					)}
 					{currentUser?.pp === 'yes' && (
 						<button
-							onClick={handlePrint}
+							onClick={() =>
+								handlePrint('Summary Report', companies, selectedCompany)
+							}
 							className="btn btn-primary btn-sm m-1">
 							Print
 						</button>

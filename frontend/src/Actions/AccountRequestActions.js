@@ -169,7 +169,7 @@ export const importAccountRequest = formData => async dispatch => {
 	dispatch(AccountRequestActions.handleLoading())
 	try {
 		const { data } = await AccountRequestApis.importAccountRequest(formData)
-		console.log(data)
+
 		if (data.success) {
 			dispatch(AccountRequestActions.importData(data.requests))
 
