@@ -25,7 +25,7 @@ const Receipt = () => {
 	const isLoading = useSelector(state => state.accountRequest.isLoading)
 	const companies = useSelector(state => state.company.companies)
 	const userCompanies = useSelector(state => state.company.userCompanies)
-	const [selectedCompany, setSelectedCompany] = useState(1)
+	const [selectedCompany, setSelectedCompany] = useState(userCompanies[0]?.cid)
 
 	const receipts = useSelector(state => state.accountRequest.accountRequests)
 		?.filter(expanse => expanse.requestType === 'receipt')
@@ -145,7 +145,8 @@ const Receipt = () => {
 									fontWeight: 600
 								}}>
 								{userCompanies?.length === 1 ? (
-									companies?.find(comp => comp.cid === userCompanies[0].cid)?.name
+									companies?.find(comp => comp.cid === userCompanies[0].cid)
+										?.name
 								) : (
 									<select
 										className="form-select  form-control me-auto"

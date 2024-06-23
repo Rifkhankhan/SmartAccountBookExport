@@ -26,7 +26,8 @@ const Advance = () => {
 	const isLoading = useSelector(state => state.accountRequest.isLoading)
 	const companies = useSelector(state => state.company.companies)
 	const userCompanies = useSelector(state => state.company.userCompanies)
-	const [selectedCompany, setSelectedCompany] = useState(1)
+	const [selectedCompany, setSelectedCompany] = useState(userCompanies[0]?.cid)
+
 
 	const advances = useSelector(state => state.accountRequest.accountRequests)
 		?.filter(expanse => expanse.requestType === 'advance')

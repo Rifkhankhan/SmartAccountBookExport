@@ -29,7 +29,7 @@ const Payment = () => {
 
 	const companies = useSelector(state => state.company.companies)
 	const userCompanies = useSelector(state => state.company.userCompanies)
-	const [selectedCompany, setSelectedCompany] = useState(1)
+	const [selectedCompany, setSelectedCompany] = useState(userCompanies[0]?.cid)
 
 	const expenses = useSelector(state => state.accountRequest.accountRequests)
 		?.filter(request => request.requestForm === 'expense')
@@ -132,7 +132,8 @@ const Payment = () => {
 									fontWeight: 600
 								}}>
 								{userCompanies?.length === 1 ? (
-									companies?.find(comp => comp.cid === userCompanies[0].cid)?.name
+									companies?.find(comp => comp.cid === userCompanies[0].cid)
+										?.name
 								) : (
 									<select
 										className="form-select  form-control me-auto"
